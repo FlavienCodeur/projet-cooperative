@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="jumbotron bg-light p-4 my-3 shadow" ALIGN='center'>
+                <h2 class="text-dark">Bienvenue sur Mon application !</h2>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row" ALIGN='center'>
+            </div>
+            <div class="col-18 col-lg-12">
+                <h3 class="text-dark">Connectez-vous</h3>
+                <p>
+                    {{ message }}
+                </p>
+                <form method="post">
+                    {{ form.as_p }}
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary btn-success">Se connecter</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

@@ -15,7 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+import appflux.views 
+from django.contrib.auth.views import (LoginView,LogoutView,PasswordChangeView,PasswordChangeDoneView,)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', LoginView.as_view( template_name="authentification/login.html",redirect_authenticated_user=True,),name ="login"),
+    path("home/", appflux.views.home, name="home"),
+    path("change-password",PasswordChangeView.as_view(template_name="authentification/password_change_form.html"),name="password_change",),
+    path("change-password-done/",PasswordChangeDoneView.as_view(template_name="authentification/password_change_done.html"),name="password_change_done",),
+     path("logout/", LogoutView.as_view(), name="logout"),
+
 ]
