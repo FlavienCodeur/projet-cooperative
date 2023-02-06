@@ -26,24 +26,24 @@
                 <div id="navbarContent" class="collapse navbar-collapse">
                     <ul class="navbar-nav">
                         {% if user.is_authenticated %}
-                        <li class="nav-item">
-                            <a class="nav-link"
+                        <li class="nav-item ">
+                            <a class="nav-link text-light"
                                href="{% url 'home' %}">Flux</a>
                         <li class="nav-item">
-                            <a class="nav-link" 
+                            <a class="nav-link text-light" 
                                href="{% url 'home' %}">Fonctionnalité</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link"
+                            <a class="nav-link text-light"
                                href="{% url 'home' %}">Fonctionnalité</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link"
+                        <li class="nav-item ">
+                            <a class="nav-link text-light"
                                href="{% url 'password_change' %}">Changer
                                 MDP</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'logout' %}">Se
+                        <li class="nav-item ">
+                            <a class="nav-link text-light" href="{% url 'logout' %}">Se
                                 déconnecter ({{ request.user }})</a>
                         {% endif %}
                     </ul>
