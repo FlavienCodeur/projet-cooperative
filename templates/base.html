@@ -1,3 +1,5 @@
+
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -41,6 +43,9 @@
                             <a class="nav-link text-light"
                                href="{% url 'password_change' %}">Changer
                                 MDP</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class= "nav-link text-light"href="{% url 'profile' %}" title="Update my profile">Votre Profil {{request.user | title}}</a>
                         </li>
                         <li class="nav-item ">
                             <a class="nav-link text-light" href="{% url 'logout' %}">Se
