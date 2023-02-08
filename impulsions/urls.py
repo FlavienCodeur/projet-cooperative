@@ -17,9 +17,10 @@ from django.contrib import admin
 from django.urls import path
 import authentification.views 
 import appflux.views 
-from django.contrib.auth.views import (LoginView,LogoutView,PasswordChangeView,PasswordChangeDoneView,)
-from django.conf import settings
+from django.contrib.auth.views import (LoginView,LogoutView,PasswordChangeView,PasswordChangeDoneView)
 from django.conf.urls.static import static
+from django.contrib.auth import views
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,7 +30,12 @@ urlpatterns = [
     path("change-password-done/",PasswordChangeDoneView.as_view(template_name="authentification/password_change_done.html"),name="password_change_done",),
     path("logout/", LogoutView.as_view(), name="logout"),
     path('profile/',authentification.views.profile , name='profile'),
-    ]
+    path('reset_password/', views.PasswordResetView.as_view(), name="reset_password"),
+    path('reset_password_sent/', views.PasswordResetDoneView.as_view(), name="password_reset_done"),
+    path('reset/<uidb64>/<token>/',views.PasswordResetConfirmView.as_view(), name="password_reset_confirm"),
+    path('reset_password_complete/',views.PasswordResetCompleteView.as_view(), name="password_reset_complete"),
+
+]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
