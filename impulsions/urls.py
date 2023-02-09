@@ -24,16 +24,16 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', LoginView.as_view( template_name="authentification/login.html",redirect_authenticated_user=True,),name ="login"),
+    path('login', LoginView.as_view( template_name="authentification/login.html",redirect_authenticated_user=True,),name ="login"),
     path("home/", appflux.views.home, name="home"),
     path("change-password",PasswordChangeView.as_view(template_name="authentification/password_change_form.html"),name="password_change",),
     path("change-password-done/",PasswordChangeDoneView.as_view(template_name="authentification/password_change_done.html"),name="password_change_done",),
     path("logout/", LogoutView.as_view(), name="logout"),
     path('profile/',authentification.views.profile , name='profile'),
-    path('reset_password/', views.PasswordResetView.as_view(), name="reset_password"),
-    path('reset_password_sent/', views.PasswordResetDoneView.as_view(), name="password_reset_done"),
-    path('reset/<uidb64>/<token>/',views.PasswordResetConfirmView.as_view(), name="password_reset_confirm"),
-    path('reset_password_complete/',views.PasswordResetCompleteView.as_view(), name="password_reset_complete"),
+    path('reset_password/', views.PasswordResetView.as_view(template_name ="authentification/password_reset.html"), name="reset_password"),
+    path('reset_password_sent/', views.PasswordResetDoneView.as_view(template_name="authentification/password_reset_sent.html"), name="password_reset_done"),
+    path('reset/<uidb64>/<token>/',views.PasswordResetConfirmView.as_view(template_name="authentification/password_reset_form.html"), name="password_reset_confirm"),
+    path('reset_password_complete/',views.PasswordResetCompleteView.as_view(template_name="authentification/password_reset_done.html"), name="password_reset_complete"),
 
 ]
 
