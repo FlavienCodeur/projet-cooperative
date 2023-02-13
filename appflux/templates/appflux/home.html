@@ -1,4 +1,26 @@
 {% extends 'base.html' %}
 {% block content %}
-    <p>Vous êtes connecté !</p>
+</br> </br> 
+<div class="table-responsive-sm p-4">
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th scope="col">Nom</th>
+                <th scope="col">Prenom</th>
+                <th scope="col">Email</th>
+                <th scope="col">Civilité</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entrepreneur in  liste %}
+            <tr class="table-info">
+                <td><a href="{% url 'entrepreneur_detail' entrepreneur.id %}">{{entrepreneur.nom}}</a></td>
+                <td>{{entrepreneur.prenom}}</td>
+                <td>{{entrepreneur.email}}</td>
+                <td>{{entrepreneur.civilite}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+  </div>
 {% endblock content %}

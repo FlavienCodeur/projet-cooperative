@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
-{% block content %}
+{% block content %} 
+</br> </br>
     <div class="container">
         <div class="row">
             <div class="jumbotron bg-light p-4 my-3 shadow" ALIGN='center'>
-                <h2 class="text-dark">Bienvenue sur Mon application !</h2>
+                <h2 class="text-dark">Bienvenue sur mon application !</h2>
             </div>
         </div>
     </div></br></br>
@@ -18,9 +19,9 @@
                 <form method="post">
                     {{ form.as_p }}
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-primary btn-success">Se connecter</button></br> </br>
+                    <button type="submit" class="btn btn-primary btn-success">Se connecter</button>
                 </form>
-                <p class="text-sm text-primary"> Avez vous oublie votre mot de passe ?</p>
+                </br> </br>
                 <button type="submit" class=" btn-link btn btn-outline-info" ><a  href="{% url 'reset_password' %}">Mot de passe oublié</a></button>
             </div>
         </div>

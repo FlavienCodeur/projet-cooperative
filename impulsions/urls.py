@@ -21,6 +21,8 @@ from django.contrib.auth.views import (LoginView,LogoutView,PasswordChangeView,P
 from django.conf.urls.static import static
 from django.contrib.auth import views
 from django.conf import settings
+from django.views.generic import DetailView
+from appflux.models import Entrepreneur
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -34,6 +36,8 @@ urlpatterns = [
     path('reset_password_sent/', views.PasswordResetDoneView.as_view(template_name="authentification/password_reset_sent.html"), name="password_reset_done"),
     path('reset/<uidb64>/<token>/',views.PasswordResetConfirmView.as_view(template_name="authentification/password_reset_form.html"), name="password_reset_confirm"),
     path('reset_password_complete/',views.PasswordResetCompleteView.as_view(template_name="authentification/password_reset_done.html"), name="password_reset_complete"),
+    path('home/<int:pk>/', DetailView.as_view(model=Entrepreneur, template_name='appflux/entrepreneur_detail.html'), name="entrepreneur_detail"),
+
 
 ]
 

@@ -1,3 +1,11 @@
-from django.contrib import admin
+from django.contrib import admin 
+from appflux.models import Entrepreneur
+from django.contrib.auth.admin import UserAdmin
 
-# Register your models here.
+class EntrepreneurAdmin(admin.ModelAdmin):
+    list_display = ('id', 'nom', 'prenom')
+    ordering = ('id',)
+
+
+admin.site.register(Entrepreneur, EntrepreneurAdmin)
+
