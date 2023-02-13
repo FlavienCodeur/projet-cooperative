@@ -1,10 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
 <br>
-<div class="card">
+<div class="card"></br>
     <div> 
     </div>
-
+    {% if entrepreneur.photo %}
+    <div class="text-center">
+        <img class = "rounded-circle" width=250 height=250 src="{{entrepreneur.photo.url}}" 
+            alt="{{ entrepreneur.nom }}" class="avatar rounded mx-auto d-block"  accept=".jpg,.jpeg,.png"/>
+    </div>
+    {% endif %}
     <div class="card-body">
         <div class="row">
             <div class="col">
@@ -14,7 +19,16 @@
                 <strong> Nom </strong>: {{entrepreneur.nom}} </br>
             </div>
             <div class="col">
+                <strong> Securité Social  </strong>: {{entrepreneur.securite_social}} </br>
+            </div>
+            <div class="col">
+                <strong> Numero </strong>: {{entrepreneur.numero}} </br>
+            </div>
+            <div class="col">
                 <strong> Date de naissance</strong>: {{entrepreneur.date_naissance}} </br>
+            </div>
+            <div class="col">
+                <strong> Civilité</strong>: {{entrepreneur.civilite}} </br>
             </div>
         </div>
     </div>
