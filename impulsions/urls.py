@@ -37,6 +37,8 @@ urlpatterns = [
     path('reset/<uidb64>/<token>/',views.PasswordResetConfirmView.as_view(template_name="authentification/password_reset_form.html"), name="password_reset_confirm"),
     path('reset_password_complete/',views.PasswordResetCompleteView.as_view(template_name="authentification/password_reset_done.html"), name="password_reset_complete"),
     path('home/<int:pk>/', DetailView.as_view(model=Entrepreneur, template_name='appflux/entrepreneur_detail.html'), name="entrepreneur_detail"),
+    path('home/create', appflux.views.CreerEntrepreneur.as_view(), name='creer_personne'),
+    path('home/update/<int:pk>/', appflux.views.UpdateEntrepreneur.as_view(), name='update_entrepreneur')
 
 
 ]

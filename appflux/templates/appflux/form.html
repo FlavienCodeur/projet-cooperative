@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+{% if object %}
+<h3> Modification de {{object.prenom}} , {{object.nom}}</h3>
+{% else %}
+<h3> Creation d'un entrepreneur</h3>
+{% endif %}
+<div class="container mt-3">
+    <form method="POST" enctype="multipart/form-data" action="" style="height: min-content; ">
+        {% csrf_token %}
+        <div class = "col-sm-12">
+            {{ form|crispy }}
+                {% if object %}
+                <a href = "{% url 'entrepreneur_detail' object.id %}" class="btn btn-secondary">Annuler</a>
+                {% else %}
+                <a href = "{% url 'home'  %}" > Annuler</a>
+                {% endif %}
+        
+            </div>
+        </div>
+        <div class="text-center">
+        <input class="btn-btn-info text-center" type="submit" value="Save">
+        </div>
+    </form>
+</div>
+
+{% endblock content %}

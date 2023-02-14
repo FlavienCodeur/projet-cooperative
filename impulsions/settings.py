@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'authentification',
     'appflux',
     'crispy_forms',
+    'bulma',
 ]
 
 MIDDLEWARE = [
