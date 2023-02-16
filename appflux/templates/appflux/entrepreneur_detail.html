@@ -1,39 +1,121 @@
 {% extends "base.html" %}
 {% block content %}
 <br>
-<div class="card"></br>
-    <div> 
-    </div>
+
     {% if entrepreneur.photo %}
-    <div class="text-center">
-        <img class = "rounded-circle" width=250 height=250 src="{{entrepreneur.photo.url}}" 
-            alt="{{ entrepreneur.nom }}" class="avatar rounded mx-auto d-block"  accept=".jpg,.jpeg,.png"/>
-    </div>
-    {% endif %}
-    <div class="card-body">
+<div class="text-center">
+    <img class = "rounded-circle" width=300 height=300 src="{{entrepreneur.photo.url}}" 
+        alt="{{ entrepreneur.nom }}" class="avatar rounded mx-auto d-block"  accept=".jpg,.jpeg,.png"/>
+</div>
+{% endif %} </br> </br>
+<h4 class="text-info text-center"> Informations générales de {{entrepreneur.prenom}}  {{entrepreneur.nom}} </h4>
+<div class="col">
+<div class="card  my-3 border-secondary"  >
+    <div class="card-header">
+        Informations generales
+    </div>  
+    <div class="card-body text-center">
         <div class="row">
             <div class="col">
-                <strong> Prenom </strong>: {{entrepreneur.prenom}} </br>
+                <strong> Prénom </strong>: {{entrepreneur.prenom}} </br>
             </div>
             <div class="col">
                 <strong> Nom </strong>: {{entrepreneur.nom}} </br>
             </div>
             <div class="col">
-                <strong> Securité Social  </strong>: {{entrepreneur.securite_social}} </br>
+                <strong> Email </strong>: {{entrepreneur.email}} </br>
             </div>
             <div class="col">
-                <strong> Numero </strong>: {{entrepreneur.numero}} </br>
+                <strong> Téléphone </strong>: {{entrepreneur.telephone}} </br>
             </div>
             <div class="col">
-                <strong> Date de naissance</strong>: {{entrepreneur.date_naissance}} </br>
+                <strong> Nationalité</strong>: {{entrepreneur.nationalite}} </br>
+            </div>
+        </div></br>
+    
+    </div>
+</div>
+</div>
+</br> </br>
+<div class="col">
+<div class="card  my-3 border-secondary"  >
+    <div class="card-header">
+        Informations complementaires 
+    </div>  
+    <div class="card-body text-center">
+        <div class="row">
+            <div class="col">
+                <strong> Pays de naissance </strong>: {{entrepreneur.naissance}} </br>
             </div>
             <div class="col">
-                <strong> Civilité</strong>: {{entrepreneur.civilite}} </br>
+                <strong> Date de naissance </strong>: {{entrepreneur.date_naissance}} </br>
+            </div>
+            <div class="col">
+                <strong> Code postal </strong>: {{entrepreneur.adresse_postal}} </br>
+            </div>
+            <div class="col">
+                <strong> Ville </strong>: {{entrepreneur.ville}} </br>
+            </div>
+            <div class="col">
+                <strong>  Adresse </strong>: {{entrepreneur.adresse}} </br>
+            </div>
+        </div></br></br></br>
+        <div class="row">
+            <div class="col">
+                <strong> Matricule </strong>: {{entrepreneur.matricule}} </br>
+            </div>
+            <div class="col">
+                <strong> Structure </strong>: {{entrepreneur.structure}} </br>
+            </div>
+            <div class="col">
+                <strong> Code de Sécurite Sociale </strong>: {{entrepreneur.securite_social}} </br>
+            </div>
+            <div class="col">
+                <strong> Numéro de téléphone professionel </strong>: {{entrepreneur.numero}} </br>
+            </div>
+            <div class="col">
+                <strong> Manager </strong>: {{entrepreneur.manager}} </br>
+            </div>
+            <div class="col">
+                <strong> Manager </strong>:<a href=" {{entrepreneur.attestation.url}}" download=""></a> </br>
             </div>
         </div>
     </div>
+</div></br> </br>
 </div>
+<div class="col">
+    <div class="card  my-3 border-secondary"  >
+        <div class="card-header">
+            Informations Emploi
+        </div>  
+        <div class="card-body text-center">
+            <div class="row">
+                <div class="col">
+                    <strong> Fonction </strong>: {{entrepreneur.fonction}} </br>
+                </div>
+                <div class="col">
+                    <strong> Entrée dans la CAE </strong>: {{entrepreneur.date_entree}} </br>
+                </div>
+                <div class="col">
+                    <strong> Début du Contrat </strong>: {{entrepreneur.debut}} </br>
+                </div>
+                <div class="col">
+                    <strong> Contrat de Travail </strong>: {{entrepreneur.motif}} </br>
+                </div>
+                <div class="col">
+                    <strong> Type d'activité </strong>: {{entrepreneur.activite}} </br>
+                </div>
+            </div></br>
+        
+        </div>
+    </div>
+    </div>
+    </br> </br>
+
+
 <div class ="text-center" >
-    <a href = "{% url 'update_entrepreneur' entrepreneur.id   %}" class="btn btn-secondary"> Mettre a jour cette entrepreneur</a>
+    <a href = "{% url 'update_entrepreneur' entrepreneur.id   %}" class="btn btn-success"> Mettre a jour l'entrepreneur</a>
 </div>
+</div>
+</br></br>
 {% endblock content %}

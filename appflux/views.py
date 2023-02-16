@@ -6,6 +6,8 @@ from django.views.generic import DetailView, CreateView, UpdateView
 from appflux.forms import EntrepreneurForm, EntrepreneurFiltre
 from django.urls import reverse_lazy , reverse
 from django.utils.http import urlencode
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 @login_required
 def home(request):
@@ -35,7 +37,8 @@ def home(request):
 
     return render(request, "appflux/home.html", locals())
 
-class CreerEntrepreneur(CreateView):
+
+class CreerEntrepreneur(LoginRequiredMixin, CreateView):
     model = Entrepreneur
     form_class =  EntrepreneurForm
     template_name = 'appflux/form.html'
@@ -44,12 +47,10 @@ class CreerEntrepreneur(CreateView):
         return reverse_lazy("entrepreneur_detail", kwargs={"pk": self.object.id})
     
 
-class UpdateEntrepreneur(UpdateView):
+class UpdateEntrepreneur(LoginRequiredMixin, UpdateView):
     model = Entrepreneur
     form_class =  EntrepreneurForm
     template_name = 'appflux/form.html'
 
     def get_success_url(self):
         return reverse_lazy("entrepreneur_detail", kwargs={"pk": self.object.id})
-    
-    

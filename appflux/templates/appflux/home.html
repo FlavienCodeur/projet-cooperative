@@ -31,9 +31,9 @@
         <thead>
             <tr>
                 <th scope="col">Nom</th>
-                <th scope="col">Prenom</th>
+                <th scope="col">Prénom</th>
                 <th scope="col">Email</th>
-                <th scope="col">Civilité</th>
+                <th scope="col">Téléphone</th>
             </tr>
         </thead>
         <tbody>
@@ -42,7 +42,7 @@
                 <td><a href="{% url 'entrepreneur_detail' entrepreneur.id %}">{{entrepreneur.nom}}</a></td>
                 <td>{{entrepreneur.prenom}}</td>
                 <td>{{entrepreneur.email}}</td>
-                <td>{{entrepreneur.civilite}}</td>
+                <td>{{entrepreneur.telephone}}</td>
             </tr>
             {% endfor %}
         </tbody>
