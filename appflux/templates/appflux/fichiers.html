@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<div class="col">
+  <div class="card text-white bg-light my-3 border-secondary"  >
+      <div class="card-header text-center ">
+          <h4 class = "text-dark">Differentes fonctionnalités annexes liés a l'entrepreneur</h4>
+      </div>
+      <div class="card-body text-center">
+          <div class="row">
+              <div class="col">
+                  <a class="btn btn-info" href="{% url 'entrepreneur_detail' entrepreneur.id %}"> Retourner sur le detail de l'entrepreneur</a> </br>
+              </div>
+          </div>
+      </div></br>
+  </div>
+</div>
+</br></br>
+
+
+
+<div class="col">
+  <div class="card  my-3 border-secondary"  >
+      <div class="card-header">
+        <h3 class="text-center">Fichiers de {{entrepreneur.nom}} {{entrepreneur.prenom}} </h3>
+      </div>  
+      <div class="card-body text-center">
+          <div class="row">
+              <div class="col">
+                {% if fichiers %}
+                  <ul class="list-unstyled">
+                  {% for fichier in fichiers %}
+                    <li><a href="{{ fichier.fichier.url }}">{{ fichier.nom }}</a> -- {{ fichier.date_created }}</li></br>
+                  {% endfor %}
+                  </ul>
+                {% else %}
+                  <p>Aucun fichier disponible.</p>
+                {% endif %}
+              </div>
+      </div>
+  </div>
+  </div>
+
+{% endblock content %}

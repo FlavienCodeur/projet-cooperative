@@ -2,13 +2,34 @@
 {% block content %}
 <br>
 
+<div class="col">
+    <div class="card text-white bg-light my-3 border-secondary"  >
+        <div class="card-header text-center ">
+            <h4 class = "text-dark">Differentes fonctionnalités annexes liés a l'entrepreneur</h4>
+        </div>
+        <div class="card-body text-center">
+            <div class="row">
+                <div class="col">
+                    <a class="btn btn-info" href="{% url 'fichiers' entrepreneur.id %}"> Les fichiers de l'entrepreneur</a> </a></br>
+                </div>
+            </div>
+        </div></br>
+    </div>
+</div>
+</br></br>
+
+
     {% if entrepreneur.photo %}
 <div class="text-center">
     <img class = "rounded-circle" width=300 height=300 src="{{entrepreneur.photo.url}}" 
         alt="{{ entrepreneur.nom }}" class="avatar rounded mx-auto d-block"  accept=".jpg,.jpeg,.png"/>
 </div>
 {% endif %} </br> </br>
-<h4 class="text-info text-center"> Informations générales de {{entrepreneur.prenom}}  {{entrepreneur.nom}} </h4>
+<h4 class="text-info text-center"> Informations générales de {{entrepreneur.prenom}}  {{entrepreneur.nom}} </h4></br>
+<div class ="text-center" >
+    <a href = "{% url 'update_entrepreneur' entrepreneur.id   %}" class="btn btn-success"> Mettre a jour l'entrepreneur</a>
+    <a href="{% url 'telecharger_fichier' entrepreneur.id %}" class="btn btn-success">Ajouter un fichier pour l'entrepreneur</a>
+</div></br>
 <div class="col">
 <div class="card  my-3 border-secondary"  >
     <div class="card-header">
@@ -76,9 +97,6 @@
             <div class="col">
                 <strong> Manager </strong>: {{entrepreneur.manager}} </br>
             </div>
-            <div class="col">
-                <strong> Manager </strong>:<a href=" {{entrepreneur.attestation.url}}" download=""></a> </br>
-            </div>
         </div>
     </div>
 </div></br> </br>
@@ -113,9 +131,4 @@
     </br> </br>
 
 
-<div class ="text-center" >
-    <a href = "{% url 'update_entrepreneur' entrepreneur.id   %}" class="btn btn-success"> Mettre a jour l'entrepreneur</a>
-</div>
-</div>
-</br></br>
 {% endblock content %}

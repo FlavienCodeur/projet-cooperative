@@ -47,5 +47,14 @@ class Entrepreneur(models.Model):
 
 
     def __str__(self):
-        return f'{self.nom} nom'
+        return f'{self.nom} {self.prenom}'
+    
 
+class Fichier(models.Model):
+    nom = models.CharField(max_length=100)
+    fichier = models.FileField(upload_to= "fichiers/")
+    entrepreneur = models.ForeignKey(Entrepreneur, on_delete=models.CASCADE)
+    date_created = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.nom
