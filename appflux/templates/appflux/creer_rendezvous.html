@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+
+<h1>Créer un rendez-vous avec {{ entrepreneur.nom }}</h1>
+<form method="POST">
+  {% csrf_token %}
+  {{ rendezvous_form|crispy }}
+  <button type="submit" class="btn btn-primary">Enregistrer</button>
+</form>
+{% endblock %}
+
+

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+
+
+<h1>Liste des rendez-vous de {{ entrepreneur.nom }}</h1>
+<ul>
+{% for ru in rendezvous %}
+    <li><a href="{% url 'rendez_detail'  entrepreneur.id ru.id %}">{{ ru.sujet }}</li>
+
+{% empty %}
+    <li>Aucun rendez-vous n'a été trouvé pour {{ entrepreneur.nom }}</li>
+{% endfor %}
+</ul>
+{% endblock %}
+

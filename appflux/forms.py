@@ -1,6 +1,6 @@
 from django.forms import ModelForm, Form , CharField
 from django import forms
-from appflux.models import Entrepreneur, Fichier
+from appflux.models import Entrepreneur, Fichier, RendezVous
 
 class EntrepreneurForm(ModelForm):
     class Meta:
@@ -19,3 +19,9 @@ class FichierForm(forms.ModelForm):
     class Meta:
         model = Fichier
         fields = ['nom', 'fichier']
+
+
+class RendezVousForm (forms.ModelForm):
+    class Meta : 
+        model = RendezVous
+        fields = ['sujet', 'date', 'heure']

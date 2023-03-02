@@ -21,8 +21,6 @@ from django.contrib.auth.views import (LoginView,LogoutView,PasswordChangeView,P
 from django.conf.urls.static import static
 from django.contrib.auth import views
 from django.conf import settings
-from django.views.generic import DetailView
-from appflux.models import Entrepreneur
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -38,10 +36,13 @@ urlpatterns = [
     path('reset_password_complete/',views.PasswordResetCompleteView.as_view(template_name="authentification/password_reset_done.html"), name="password_reset_complete"),
     path('home/<int:entrepreneur_id>/', appflux.views.detail_entrepreneur ,name="entrepreneur_detail"),
     path('home/create', appflux.views.CreerEntrepreneur.as_view(), name='creer_personne'),
-    path('home/update/<int:pk>/', appflux.views.UpdateEntrepreneur.as_view(), name='update_entrepreneur'),
+    path('home/<int:pk>/update/', appflux.views.UpdateEntrepreneur.as_view(), name='update_entrepreneur'),
     path('home/<int:entrepreneur_id>/telecharger_fichier/', appflux.views.telecharger_fichier, name='telecharger_fichier'),
     path('home/<int:entrepreneur_id>/fichiers/', appflux.views.fichiers, name='fichiers'),
-
+    path('home/<int:entrepreneur_id>/creer-rendezvous/', appflux.views.creer_rendezvous, name='creer-rendezvous'),
+    path('home/<int:entrepreneur_id>/rendezvous/', appflux.views.rendezvous_list, name='rendezvous_list'),
+    path('home/<int:entrepreneur_id>/rendezvous/<int:rendezvous_id>/', appflux.views.rendezvous_detail, name='rendez_detail'),
+    path('home/<int:entrepreneur_id>/rendezvous/<int:rendezvous_id>/update/', appflux.views.rendez_vous_update, name='rendezvous_update'),
 ]
 
 if settings.DEBUG:

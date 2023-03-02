@@ -29,7 +29,7 @@ class Entrepreneur(models.Model):
     photo = models.ImageField(default='avatar.jpg', upload_to='entrepreneur_avatars', blank=True,)
     telephone = models.CharField(max_length=15 ,blank=True, verbose_name="téléphone")
     structure = models.CharField(max_length=40, choices=STRUCTURE,)
-    email = models.CharField(max_length=150,)
+    email =  models.EmailField()
     nationalite = models.CharField(max_length=150, verbose_name="nationalité")
     naissance = models.CharField(max_length=100, verbose_name="pays de naissance",)
     numero = models.CharField( max_length=15 ,verbose_name="numéro de téléphone professionel", blank=True)
@@ -58,3 +58,14 @@ class Fichier(models.Model):
 
     def __str__(self):
         return self.nom
+    
+
+class RendezVous(models.Model):
+    entrepreneur = models.ForeignKey(Entrepreneur, on_delete=models.CASCADE)
+    sujet = models.CharField(max_length=255)
+    date = models.DateField()
+    heure = models.TimeField()
+    #nouveau champ a ajouter apres
+
+    def __str__(self):
+        return f"Rendez-vous avec {self.entrepreneur} le {self.date} à {self.heure}"

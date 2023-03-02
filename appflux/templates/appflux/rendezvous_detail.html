@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Rendez-vous de {{ entrepreneur.nom }} {{ entrepreneur.prenom }}</h1>
+  <p>Date: {{ rendezvous.date }}</p>
+  <p>Heure: {{ rendezvous.heure }}</p>
+  <p>Lieu: {{ rendezvous.lieu }}</p>
+  <a href="{% url 'rendezvous_update'  entrepreneur.id rendezvous.id %}">Update le rendez vous</a>
+{% endblock %}
