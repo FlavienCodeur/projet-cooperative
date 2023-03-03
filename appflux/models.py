@@ -3,11 +3,6 @@ from PIL import Image
 from django.core.validators import RegexValidator
 from authentification.models import User
 
-STRUCTURE = (
-    ('Impulsions', 'Impulsions'),
-    ('Eclosion', 'Eclosions')
-
-)
 
 TRAVAIL = (
     ('CDI', 'Contrat à duree indéterminée'),
@@ -23,12 +18,17 @@ ACTIVITE = (
 )
 
 class Entrepreneur(models.Model):
+    STRUCTURE = (
+    ('Impulsions', 'Impulsions'),
+    ('Eclosion', 'Eclosions')
+
+)
     nom = models.CharField (max_length=30,)
     prenom = models.CharField(max_length=30, verbose_name="prénom")
     matricule = models.CharField(max_length=30, blank=True)
     photo = models.ImageField(default='avatar.jpg', upload_to='entrepreneur_avatars', blank=True,)
     telephone = models.CharField(max_length=15 ,blank=True, verbose_name="téléphone")
-    structure = models.CharField(max_length=40, choices=STRUCTURE,)
+    structure = models.CharField(max_length=40, choices=STRUCTURE)
     email =  models.EmailField()
     nationalite = models.CharField(max_length=150, verbose_name="nationalité")
     naissance = models.CharField(max_length=100, verbose_name="pays de naissance",)
@@ -60,11 +60,39 @@ class Fichier(models.Model):
         return self.nom
     
 
+NATURE =  [
+    ('RV conseil', 'Rendez-vous conseil'),
+    ('RV gestion', ' Rendez-vous gestion'),
+    ('RV admin', ' Rendez-vous admin',),
+    ('RV RH', 'Rendez vous RH'), 
+    ('RV compta', 'Rendez-vous comptabilité'),
+    ('RV hebdo', ' Rendez-vous hebdomadaire')
+
+]
+
+PRESENCE = [
+    ('present', 'Present'),
+    ('absent', 'Absent'),
+    ('attendu', 'Attendu'),
+    ('excuse', 'Excusé')
+]
+
+LIEU = [
+    ('presentiel', 'Presentiel'),
+    ('a distance', 'A distance'),
+]
+
 class RendezVous(models.Model):
     entrepreneur = models.ForeignKey(Entrepreneur, on_delete=models.CASCADE)
     sujet = models.CharField(max_length=255)
     date = models.DateField()
     heure = models.TimeField()
+    nature = models.CharField(max_length=240, verbose_name=' Nature du rendez vous', choices=NATURE, blank=True)
+    lieu = models.CharField(max_length=100, choices=LIEU, verbose_name='Mode d\'entretien', blank=True)
+    objectifs = models.TextField(blank=True)
+    personne = models.ForeignKey(User, on_delete=models.CASCADE)
+    points = models.TextField(max_length=1000, verbose_name='point qui ont été abordés', blank=True)
+    notes = models.TextField(blank=True)
     #nouveau champ a ajouter apres
 
     def __str__(self):

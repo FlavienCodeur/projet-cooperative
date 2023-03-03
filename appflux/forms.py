@@ -11,8 +11,8 @@ class EntrepreneurForm(ModelForm):
 class EntrepreneurFiltre(Form):
     nom = CharField(max_length=100, required=False)
     prenom = CharField(max_length=100, required=False)
-    structure = CharField(max_length=100, required=False)
-
+    structure = forms.ChoiceField(choices=Entrepreneur.STRUCTURE, required=False)
+    
 
 
 class FichierForm(forms.ModelForm):
@@ -24,4 +24,4 @@ class FichierForm(forms.ModelForm):
 class RendezVousForm (forms.ModelForm):
     class Meta : 
         model = RendezVous
-        fields = ['sujet', 'date', 'heure']
+        fields = ['sujet', 'date', 'heure','nature','lieu','objectifs', 'personne','points','notes']

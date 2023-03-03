@@ -96,7 +96,7 @@ def creer_rendezvous(request, entrepreneur_id):
             rendezvous.entrepreneur = entrepreneur
             rendezvous.save()
             subject = f"Nouveau rendez-vous avec {entrepreneur.nom}"
-            message = f"Bonjour {entrepreneur.nom},\n\nVous avez un nouveau rendez-vous le {rendezvous.date} à {rendezvous.heure}. Le sujet du rendez-vous est : {rendezvous.sujet}\n\nCordialement,\nVotre assistant virtuel"
+            message = f"Bonjour {entrepreneur.nom} {entrepreneur.prenom},\n\nVous avez un nouveau rendez-vous le {rendezvous.date} à {rendezvous.heure}\n\n. Le sujet du rendez-vous est : {rendezvous.sujet}\n\n Le mode d\'entretien du rendez-vous est : {rendezvous.lieu}\n\n La nature du rendez-vous est : {rendezvous.nature}\n\n Les objectifs du rendez vous sont : {rendezvous.objectifs}\n\n Cordialement ZECOOP"
             from_email = settings.EMAIL_HOST_USER
             recipient_list = [entrepreneur.email]
             send_mail(subject, message, from_email, recipient_list)
@@ -133,7 +133,7 @@ def rendez_vous_update(request, entrepreneur_id, rendezvous_id):
 
             # send confirmation email to entrepreneur
             subject = f"Rendez-vous modifié avec {entrepreneur.nom}"
-            message = f"Bonjour {entrepreneur.nom},\n\nVotre rendez-vous avec {rendezvous.entrepreneur.nom} a été modifié. Les nouvelles informations sont :\n\nDate : {rendezvous.date}\nHeure : {rendezvous.heure}\nSujet : {rendezvous.sujet}\n\nCordialement,\nL'équipe de votre application"
+            message = f"Bonjour {entrepreneur.nom} {entrepreneur.prenom},\n\nVotre rendez-vous  a été modifié. Les nouvelles informations sont :\n\nNature : {rendezvous.nature}\nSujet : {rendezvous.sujet}\nObjectifs : {rendezvous.objectifs} \nLieu : {rendezvous.lieu}\nHeure : {rendezvous.heure}\nDate : {rendezvous.date}\n\nCordialement,\n ZECOOP"
             from_email = settings.EMAIL_HOST_USER
             recipient_list = [entrepreneur.email]
             send_mail(subject, message, from_email, recipient_list)
