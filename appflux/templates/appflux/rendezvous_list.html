@@ -5,14 +5,42 @@
 {% block content %}
 
 
-<h1>Liste des rendez-vous de {{ entrepreneur.nom }}</h1>
-<ul>
-{% for ru in rendezvous %}
-    <li><a href="{% url 'rendez_detail'  entrepreneur.id ru.id %}">{{ ru.sujet }}</li>
+<div class="col">
+    <div class="card text-white bg-light my-3 border-secondary"  >
+        <div class="card-header text-center ">
+            <h4 class = "text-dark">Differentes fonctionnalités annexes liés a l'entrepreneur</h4>
+        </div>
+        <div class="card-body text-center">
+            <div class="row">
+                <div class="col">
+                    <a class="btn btn-info" href="{% url 'entrepreneur_detail' entrepreneur.id %}"> Retourner sur le detail de l'entrepreneur</a> </br>
+                </div>
+            </div>
+        </div></br>
+    </div>
+  </div>
+  </br></br>
+  
 
-{% empty %}
-    <li>Aucun rendez-vous n'a été trouvé pour {{ entrepreneur.nom }}</li>
-{% endfor %}
-</ul>
+<div class="table-responsive-sm p-4">
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th scope="col">Sujet</th>
+                <th scope="col">Date</th>
+                <th scope="col">Heure</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ru in  rendezvous %}
+            <tr class="table-info">
+                <td><a href="{% url 'rendez_detail'  entrepreneur.id ru.id %}">{{ ru.sujet }}</a></td>
+                <td>{{ru.date}}</td>
+                <td>{{ru.heure}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}
 

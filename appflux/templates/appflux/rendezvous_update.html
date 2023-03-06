@@ -2,10 +2,20 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-  <h2>Modifier le rendez-vous avec {{ entrepreneur.name }}</h2>
-  <form method="POST">
-    {% csrf_token %}
-    {{ form|crispy }}
-    <button type="submit">Enregistrer</button>
+
+</br> </br>
+<h4  class="text-info text-center"> Modifier le rendez-vous pour {{entrepreneur.prenom}}  {{entrepreneur.nom}} </h4>
+<div class="container mt-3">
+  <form method="POST" enctype="multipart/form-data" action="" style="height: min-content; ">
+      {% csrf_token %}
+      <div class = "col-sm-12">
+          {{ form|crispy }}
+          <a href = "{% url 'entrepreneur_detail' entrepreneur.id %}" > Annuler</a>
+      </div>
+      <div class="text-center">
+      <input class="btn btn-success text-center" type="submit" value="Valider le formulaire">
+      </div>
   </form>
+</div>
+</br>
 {% endblock %}

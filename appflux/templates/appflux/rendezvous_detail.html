@@ -1,9 +1,89 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>Rendez-vous de {{ entrepreneur.nom }} {{ entrepreneur.prenom }}</h1>
-  <p>Date: {{ rendezvous.date }}</p>
-  <p>Heure: {{ rendezvous.heure }}</p>
-  <p>Lieu: {{ rendezvous.lieu }}</p>
-  <a href="{% url 'rendezvous_update'  entrepreneur.id rendezvous.id %}">Update le rendez vous</a>
+
+</br></br>
+<h4 class="text-info text-center"> Informations du rendez-vous de {{entrepreneur.prenom}}  {{entrepreneur.nom}}</h4>
+<div class="col">
+  <div class="card  my-3 border-secondary"  >
+      <div class="card-header">
+        Informations du rendez-vous de {{ entrepreneur.nom }} {{ entrepreneur.prenom }} </br>
+      </div>  
+      <div class="card-body text-center">
+          <div class="row">
+            <div class="col">
+              <strong> Sujet </strong>: {{rendezvous.sujet}} </br>
+            </div>
+              <div class="col">
+                <strong> Heure </strong>: {{rendezvous.heure}} </br>
+              </div>
+              <div class="col">
+                <strong> Date  </strong>: {{rendezvous.date}} </br> 
+              </div>
+              
+          </div></br></br></br>
+          <div class="row">
+              <div class="col">
+                  <strong> La personne en charge du rendez-vous </strong>: {{rendezvous.personne}} </br>
+              </div>
+              <div class="col">
+                <strong> Nature du rendez-vous </strong>: {{rendezvous.nature}} </br> </br>
+              </div>
+              <div class="col">
+                  <strong> Lieu</strong>: {{rendezvous.lieu}} </br>
+              </div>
+              </div>
+          </div>
+      </div>
+  </div></br> </br>
+  </div>
+
+  <div class="col">
+    <div class="card  my-3 border-secondary"  >
+        <div class="card-header">
+           Les objectifs du rendez-vous de {{ entrepreneur.nom }} {{ entrepreneur.prenom }} </br></br>
+        </div>  
+        <div class="card-body text-center">
+            <div class="row">
+                <div class="col">
+                     {{rendezvous.objectifs}} </br>
+                </div>
+            </div></br></br></br>
+    </div>
+  </div>
+</div>
+</br>
+  <div class="col">
+    <div class="card  my-3 border-secondary"  >
+        <div class="card-header">
+            Les points abordés lors rendez-vous de {{ entrepreneur.nom }} {{ entrepreneur.prenom }} </br></br>
+        </div>  
+        <div class="card-body text-center">
+          <div class="row">
+            <div class="col">
+                {{rendezvous.points}} </br>
+            </div>
+            </div></br></br></br>
+      </div>
+  </div>
+</div>
+</br>
+<div class="col">
+  <div class="card  my-3 border-secondary"  >
+      <div class="card-header">
+          Les notes d'informations  </br></br>
+      </div>  
+      <div class="card-body text-center">
+        <div class="row">
+          <div class="col">
+               {{rendezvous.notes}} 
+          </div>
+          </div></br></br></br>
+    </div>
+</div>
+</div>
+</br>
+<div class="text-center">
+<a class = "btn btn-success text-center" href="{% url 'rendezvous_update'  entrepreneur.id rendezvous.id %}">Update le rendez vous</a>
+</div>
 {% endblock %}

@@ -61,20 +61,20 @@ class Fichier(models.Model):
     
 
 NATURE =  [
-    ('RV conseil', 'Rendez-vous conseil'),
-    ('RV gestion', ' Rendez-vous gestion'),
-    ('RV admin', ' Rendez-vous admin',),
-    ('RV RH', 'Rendez vous RH'), 
-    ('RV compta', 'Rendez-vous comptabilité'),
-    ('RV hebdo', ' Rendez-vous hebdomadaire')
+    ('RDV conseil', 'Rendez-vous conseil'),
+    ('RDV gestion', ' Rendez-vous gestion'),
+    ('RDV administration', ' Rendez-vous admin',),
+    ('RDV Ressources Humaines', 'Rendez vous RH'), 
+    ('RDV comptabilité', 'Rendez-vous comptabilité'),
+    ('RDV hebdomadaire', ' Rendez-vous hebdomadaire')
 
 ]
 
 PRESENCE = [
-    ('present', 'Present'),
-    ('absent', 'Absent'),
-    ('attendu', 'Attendu'),
-    ('excuse', 'Excusé')
+    ('Present', 'Present'),
+    ('Absent', 'Absent'),
+    ('Attendu', 'Attendu'),
+    ('Excusé', 'Excusé')
 ]
 
 LIEU = [
@@ -91,7 +91,7 @@ class RendezVous(models.Model):
     lieu = models.CharField(max_length=100, choices=LIEU, verbose_name='Mode d\'entretien', blank=True)
     objectifs = models.TextField(blank=True)
     personne = models.ForeignKey(User, on_delete=models.CASCADE)
-    points = models.TextField(max_length=1000, verbose_name='point qui ont été abordés', blank=True)
+    points = models.TextField(max_length=1000, verbose_name='Point qui ont été abordés', blank=True)
     notes = models.TextField(blank=True)
     #nouveau champ a ajouter apres
 

@@ -109,7 +109,7 @@ def creer_rendezvous(request, entrepreneur_id):
 
 def rendezvous_list(request, entrepreneur_id):
     entrepreneur = get_object_or_404(Entrepreneur, pk=entrepreneur_id)
-    rendezvous = RendezVous.objects.filter(entrepreneur=entrepreneur)
+    rendezvous = RendezVous.objects.filter(entrepreneur=entrepreneur).order_by("date")
     context = {'entrepreneur': entrepreneur, 'rendezvous': rendezvous}
     return render(request, 'appflux/rendezvous_list.html', context)
 
@@ -133,7 +133,7 @@ def rendez_vous_update(request, entrepreneur_id, rendezvous_id):
 
             # send confirmation email to entrepreneur
             subject = f"Rendez-vous modifié avec {entrepreneur.nom}"
-            message = f"Bonjour {entrepreneur.nom} {entrepreneur.prenom},\n\nVotre rendez-vous  a été modifié. Les nouvelles informations sont :\n\nNature : {rendezvous.nature}\nSujet : {rendezvous.sujet}\nObjectifs : {rendezvous.objectifs} \nLieu : {rendezvous.lieu}\nHeure : {rendezvous.heure}\nDate : {rendezvous.date}\n\nCordialement,\n ZECOOP"
+            message = f"Bonjour {entrepreneur.nom} {entrepreneur.prenom},\n\nVotre rendez-vous  a été modifié. Les nouvelles informations sont :\n\nNature : {rendezvous.nature}\nSujet : {rendezvous.sujet}\nObjectifs : {rendezvous.objectifs} \n\n\nLieu : {rendezvous.lieu}\nHeure : {rendezvous.heure}\nDate : {rendezvous.date}\n\nCordialement,\n ZECOOP"
             from_email = settings.EMAIL_HOST_USER
             recipient_list = [entrepreneur.email]
             send_mail(subject, message, from_email, recipient_list)
