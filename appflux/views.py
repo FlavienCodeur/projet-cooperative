@@ -109,7 +109,7 @@ def creer_rendezvous(request, entrepreneur_id):
 
 def rendezvous_list(request, entrepreneur_id):
     entrepreneur = get_object_or_404(Entrepreneur, pk=entrepreneur_id)
-    rendezvous = RendezVous.objects.filter(entrepreneur=entrepreneur).order_by("date")
+    rendezvous = RendezVous.objects.filter(entrepreneur=entrepreneur).order_by("-date")
     context = {'entrepreneur': entrepreneur, 'rendezvous': rendezvous}
     return render(request, 'appflux/rendezvous_list.html', context)
 
