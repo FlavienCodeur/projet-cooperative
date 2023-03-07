@@ -43,6 +43,8 @@ urlpatterns = [
     path('home/<int:entrepreneur_id>/rendezvous/', appflux.views.rendezvous_list, name='rendezvous_list'),
     path('home/<int:entrepreneur_id>/rendezvous/<int:rendezvous_id>/', appflux.views.rendezvous_detail, name='rendez_detail'),
     path('home/<int:entrepreneur_id>/rendezvous/<int:rendezvous_id>/update/', appflux.views.rendez_vous_update, name='rendezvous_update'),
+    path('rendezvous/', appflux.views.index, name='rendezvous'),
+     path('rendezvous/create', appflux.views.rendezvous_new, name='creer_rendezvous'),
 ]
 
 if settings.DEBUG:

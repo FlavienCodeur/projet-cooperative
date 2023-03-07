@@ -25,3 +25,9 @@ class RendezVousForm (forms.ModelForm):
     class Meta : 
         model = RendezVous
         fields = ['sujet', 'date', 'heure','nature','lieu','objectifs', 'personne','points','notes']
+
+
+class RendezVousAnnuaire(forms.ModelForm):
+    class Meta:
+        model = RendezVous
+        fields = '__all__'

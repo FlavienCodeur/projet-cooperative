@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from appflux.models import Entrepreneur, Fichier, RendezVous
 from . import models
 from django.views.generic import DetailView, CreateView, UpdateView
-from appflux.forms import EntrepreneurForm, EntrepreneurFiltre, FichierForm, RendezVousForm
+from appflux.forms import EntrepreneurForm, EntrepreneurFiltre, FichierForm, RendezVousForm, RendezVousAnnuaire
 from django.urls import reverse_lazy , reverse
 from django.utils.http import urlencode
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -148,3 +148,34 @@ def rendez_vous_update(request, entrepreneur_id, rendezvous_id):
         'form': form,
     }
     return render(request, 'appflux/rendezvous_update.html', context)
+
+def index(request):
+    rendezvous = RendezVous.objects.all().order_by('-date')
+
+    context = {
+        'rendezvous': rendezvous,
+    }
+
+    return render(request, 'appflux/annuaire.html', context)
+
+
+def rendezvous_new(request):
+    form = RendezVousAnnuaire()
+
+    if request.method == 'POST':
+        form = RendezVousAnnuaire(request.POST)
+        if form.is_valid():
+            rendezvous = form.save()
+            subject = f"Nouveau rendez-vous avec {rendezvous.entrepreneur.nom}"
+            message = f"Bonjour {rendezvous.entrepreneur.nom},\n\nVous avez un nouveau rendez-vous le {rendezvous.date} à {rendezvous.heure}. Le sujet du rendez-vous est : {rendezvous.sujet}\n\nCordialement,\nVotre assistant virtuel"
+            from_email = settings.EMAIL_HOST_USER
+            recipient_list = [rendezvous.entrepreneur.email]
+            send_mail(subject, message, from_email, recipient_list)
+            
+            return redirect('rendezvous')
+
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'appflux/rendezvous_creer.html', context)

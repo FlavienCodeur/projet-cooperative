@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+</br></br>
+
+<div class ="text-center" >
+    <a href = "{% url 'creer_rendezvous'  %}" class="btn btn-secondary"> Ajouter un Rendez-vous</a>
+</div>
+
+<div class="table-responsive-sm p-4">
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th scope="col">Nom de l'entrepreneur</th>
+                <th scope="col">Prénom de l'entrepreneur</th>
+                <th scope="col">Sujet du rendez-vous</th>
+                <th scope="col">Date du rendez-vous</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for rendezvous in rendezvous %}
+            <tr class="table-info">
+                <td>{{rendezvous.entrepreneur.nom}}</td>
+                <td>{{rendezvous.entrepreneur.prenom}}</td>
+                <td>{{rendezvous.sujet}}</td>
+                <td>{{rendezvous.date}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+  </div>
+
+
+{% endblock content %}

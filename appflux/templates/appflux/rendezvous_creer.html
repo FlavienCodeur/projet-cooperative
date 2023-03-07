@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+
+</br> </br>
+<div class="container mt-3">
+  <form method="POST" enctype="multipart/form-data" action="" style="height: min-content; ">
+      {% csrf_token %}
+      <div class = "col-sm-12">
+          {{ form|crispy }}
+      </div>
+      <div class="text-center">
+      <input class="btn btn-success text-center" type="submit" value="Valider le formulaire">
+      </div>
+  </form>
+</div>
+</br>
+{% endblock %}
