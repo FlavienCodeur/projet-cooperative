@@ -7,6 +7,24 @@
     <a href = "{% url 'creer_rendezvous'  %}" class="btn btn-secondary"> Ajouter un Rendez-vous</a>
 </div>
 
+<div class = "row p-4">
+    <div class = "col-sm-12 mt-1"> 
+        <div class="card">
+            <div class="card-header"> 
+                Recherche
+            </div> 
+            <form action=" {% url 'rendezvous' %}" method="post">
+                <div class="card-body">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <div class="text-right" >
+                    <button class="btn-btn-info" type="submit">Rechercher</button>
+                </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <div class="table-responsive-sm p-4">
     <table class="table table-sm">
         <thead>
@@ -15,15 +33,17 @@
                 <th scope="col">Prénom de l'entrepreneur</th>
                 <th scope="col">Sujet du rendez-vous</th>
                 <th scope="col">Date du rendez-vous</th>
+                <th scope="col">Rendez-vous pris par</th>
             </tr>
         </thead>
         <tbody>
-            {% for rendezvous in rendezvous %}
+            {% for rendez in liste %}
             <tr class="table-info">
-                <td>{{rendezvous.entrepreneur.nom}}</td>
-                <td>{{rendezvous.entrepreneur.prenom}}</td>
-                <td>{{rendezvous.sujet}}</td>
-                <td>{{rendezvous.date}}</td>
+                <td><a href="{% url 'rendezvous_detail' rendez.id %}">{{rendez.entrepreneur.nom}}</a></td>
+                <td>{{rendez.entrepreneur.prenom}}</td>
+                <td>{{rendez.sujet}}</td>
+                <td>{{rendez.date}}</td>
+                <td>{{rendez.personne}}</td>
             </tr>
             {% endfor %}
         </tbody>

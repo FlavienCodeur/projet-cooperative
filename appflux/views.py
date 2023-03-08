@@ -3,14 +3,14 @@ from django.contrib.auth.decorators import login_required
 from appflux.models import Entrepreneur, Fichier, RendezVous
 from . import models
 from django.views.generic import DetailView, CreateView, UpdateView
-from appflux.forms import EntrepreneurForm, EntrepreneurFiltre, FichierForm, RendezVousForm, RendezVousAnnuaire
+from appflux.forms import EntrepreneurForm, EntrepreneurFiltre, FichierForm, RendezVousForm, RendezVousAnnuaire, RendezVousFiltre
 from django.urls import reverse_lazy , reverse
 from django.utils.http import urlencode
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.core.mail import send_mail
 from django.conf import settings
-
+from django.contrib import messages
 
 @login_required
 def home(request):
@@ -117,6 +117,9 @@ def rendezvous_list(request, entrepreneur_id):
 def rendezvous_detail(request, entrepreneur_id, rendezvous_id):
     entrepreneur = get_object_or_404(Entrepreneur, pk=entrepreneur_id)
     rendezvous = get_object_or_404(RendezVous, pk=rendezvous_id)
+    if rendezvous.entrepreneur != entrepreneur:
+        messages.error(request, 'Vous ne pouvez pas modifier ce rendez-vous.')
+        return redirect('entrepreneur_detail', entrepreneur_id=entrepreneur_id)
     context = {'entrepreneur': entrepreneur, 'rendezvous': rendezvous}
     return render(request, 'appflux/rendezvous_detail.html', context)
 
@@ -127,6 +130,10 @@ def rendez_vous_update(request, entrepreneur_id, rendezvous_id):
 
     if request.method == "POST":
         form = RendezVousForm(request.POST, instance=rendezvous)
+        if rendezvous.entrepreneur != entrepreneur:
+            messages.error(request, 'Vous ne pouvez pas modifier ce rendezvous.')
+            return redirect('home', entrepreneur_id=entrepreneur_id)
+        
         if form.is_valid():
             rendezvous = form.save(commit=False)
             rendezvous.save()
@@ -150,13 +157,45 @@ def rendez_vous_update(request, entrepreneur_id, rendezvous_id):
     return render(request, 'appflux/rendezvous_update.html', context)
 
 def index(request):
-    rendezvous = RendezVous.objects.all().order_by('-date')
+    liste = RendezVous.objects.all().select_related('entrepreneur').order_by("-date")
 
-    context = {
-        'rendezvous': rendezvous,
-    }
+    if request.method == "POST":
+        form = RendezVousFiltre(request.POST)
+        if form.is_valid():
+            try:
+                base_url = reverse('rendezvous')
+                query_string = urlencode(form.cleaned_data)
+                url = '{}?{}'.format(base_url, query_string)
+                return redirect(url)
+            except TypeError:
+                query_string = urlencode({k: v for k, v in form.cleaned_data.items() if v is not None and v != ''})
+                url = '{}?{}'.format(base_url, query_string)
+                return redirect(url)
+    else:
+        form = RendezVousFiltre()
+        nom_form = request.GET.get("nom", "")
+        prenom_form = request.GET.get("prenom", "")
+        date_min = request.GET.get("date_min", "")
+        date_max = request.GET.get("date_max", "")
+        if nom_form:
+            liste = liste.filter(entrepreneur__nom__icontains=nom_form)
+            form.fields['nom'].initial = nom_form
+        if prenom_form:
+            liste = liste.filter(entrepreneur__prenom__icontains=prenom_form)
+            form.fields['prenom'].initial = prenom_form
+        if date_min is not None and date_min != '':
+            liste = liste.filter(date__gte=date_min)
+            form.fields['date_min'].initial = date_min
+        else:
+            form.fields['date_min'].initial = ''
+        if date_max is not None and date_max != '':
+            liste = liste.filter(date__lte=date_max)
+            form.fields['date_max'].initial = date_max
+        else:
+            form.fields['date_max'].initial = ''
 
-    return render(request, 'appflux/annuaire.html', context)
+    return render(request, "appflux/annuaire.html", locals())
+
 
 
 def rendezvous_new(request):
@@ -167,7 +206,7 @@ def rendezvous_new(request):
         if form.is_valid():
             rendezvous = form.save()
             subject = f"Nouveau rendez-vous avec {rendezvous.entrepreneur.nom}"
-            message = f"Bonjour {rendezvous.entrepreneur.nom},\n\nVous avez un nouveau rendez-vous le {rendezvous.date} à {rendezvous.heure}. Le sujet du rendez-vous est : {rendezvous.sujet}\n\nCordialement,\nVotre assistant virtuel"
+            message = f"Bonjour {rendezvous.entrepreneur.nom} {rendezvous.entrepreneur.prenom},\n\nVous avez un nouveau rendez-vous le {rendezvous.date} à {rendezvous.heure}\n\n. Le sujet du rendez-vous est : {rendezvous.sujet}\n\n Le mode d\'entretien du rendez-vous est : {rendezvous.lieu}\n\n La nature du rendez-vous est : {rendezvous.nature}\n\n Les objectifs du rendez vous sont : {rendezvous.objectifs}\n\n Cordialement ZECOOP"
             from_email = settings.EMAIL_HOST_USER
             recipient_list = [rendezvous.entrepreneur.email]
             send_mail(subject, message, from_email, recipient_list)
@@ -179,3 +218,35 @@ def rendezvous_new(request):
     }
 
     return render(request, 'appflux/rendezvous_creer.html', context)
+
+def rendezvous_detail_annuaire(request, rendezvous_id):
+    rendezvous = get_object_or_404(RendezVous, id=rendezvous_id)
+
+    context = {
+        'rendezvous': rendezvous,
+    }
+
+    return render(request, 'appflux/rendezvousannuaire_detail.html', context)
+
+
+def rendezvous_edit(request, rendezvous_id):
+    rendezvous = get_object_or_404(RendezVous, id=rendezvous_id)
+    form = RendezVousAnnuaire(instance=rendezvous)
+
+    if request.method == 'POST':
+        form = RendezVousAnnuaire(request.POST, instance=rendezvous)
+        if form.is_valid():
+            rendezvous = form.save()
+            subject = f"Rendez-vous modifié avec {rendezvous.entrepreneur.nom}"
+            message = f"Bonjour {rendezvous.entrepreneur.nom} {rendezvous.entrepreneur.prenom},\n\nVotre rendez-vous  a été modifié. Les nouvelles informations sont :\n\nNature : {rendezvous.nature}\nSujet : {rendezvous.sujet}\nObjectifs : {rendezvous.objectifs} \n\n\nLieu : {rendezvous.lieu}\nHeure : {rendezvous.heure}\nDate : {rendezvous.date}\n\nCordialement,\n ZECOOP"
+            from_email = settings.EMAIL_HOST_USER
+            recipient_list = [rendezvous.entrepreneur.email]
+            send_mail(subject, message, from_email, recipient_list)
+            return redirect('rendezvous')
+
+    context = {
+        'rendezvous': rendezvous,
+        'form': form,
+    }
+
+    return render(request, 'appflux/rendezvous_formupdate.html', context)

@@ -31,3 +31,10 @@ class RendezVousAnnuaire(forms.ModelForm):
     class Meta:
         model = RendezVous
         fields = '__all__'
+
+
+class RendezVousFiltre(forms.Form):
+    nom = forms.CharField(required=False)
+    prenom = forms.CharField(required=False)
+    date_min = forms.DateField(required=False)
+    date_max = forms.DateField(required=False)
