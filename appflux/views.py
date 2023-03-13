@@ -1,9 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from appflux.models import Entrepreneur, Fichier, RendezVous
+from appflux.models import Entrepreneur, Fichier, RendezVous, Evenement
 from . import models
 from django.views.generic import DetailView, CreateView, UpdateView
-from appflux.forms import EntrepreneurForm, EntrepreneurFiltre, FichierForm, RendezVousForm, RendezVousAnnuaire, RendezVousFiltre
+from appflux.forms import EntrepreneurForm, EntrepreneurFiltre, FichierForm, RendezVousForm, RendezVousAnnuaire, RendezVousFiltre, EvenementForm, EvenementFiltre
 from django.urls import reverse_lazy , reverse
 from django.utils.http import urlencode
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -65,7 +65,7 @@ def detail_entrepreneur(request, entrepreneur_id):
     return render(request, 'appflux/entrepreneur_detail.html', {'entrepreneur': entrepreneur,})
 
 
-
+@login_required
 def telecharger_fichier(request, entrepreneur_id):
     entrepreneur = get_object_or_404(Entrepreneur, pk=entrepreneur_id)
 
@@ -81,12 +81,13 @@ def telecharger_fichier(request, entrepreneur_id):
 
     return render(request, 'appflux/telecharger_fichier.html', {'entrepreneur': entrepreneur, 'form': form})
 
+@login_required
 def fichiers(request, entrepreneur_id):
     entrepreneur = get_object_or_404(Entrepreneur, id=entrepreneur_id)
     fichiers = Fichier.objects.filter(entrepreneur=entrepreneur).order_by("-date_created")
     return render(request, 'appflux/fichiers.html', {'entrepreneur': entrepreneur, 'fichiers': fichiers})
 
-
+@login_required
 def creer_rendezvous(request, entrepreneur_id):
     entrepreneur = Entrepreneur.objects.get(id=entrepreneur_id)
     if request.method == 'POST':
@@ -106,14 +107,14 @@ def creer_rendezvous(request, entrepreneur_id):
     context = {'entrepreneur': entrepreneur, 'rendezvous_form': rendezvous_form}
     return render(request, 'appflux/creer_rendezvous.html', context)
 
-
+@login_required
 def rendezvous_list(request, entrepreneur_id):
     entrepreneur = get_object_or_404(Entrepreneur, pk=entrepreneur_id)
     rendezvous = RendezVous.objects.filter(entrepreneur=entrepreneur).order_by("-date")
     context = {'entrepreneur': entrepreneur, 'rendezvous': rendezvous}
     return render(request, 'appflux/rendezvous_list.html', context)
 
-
+@login_required
 def rendezvous_detail(request, entrepreneur_id, rendezvous_id):
     entrepreneur = get_object_or_404(Entrepreneur, pk=entrepreneur_id)
     rendezvous = get_object_or_404(RendezVous, pk=rendezvous_id)
@@ -123,11 +124,14 @@ def rendezvous_detail(request, entrepreneur_id, rendezvous_id):
     context = {'entrepreneur': entrepreneur, 'rendezvous': rendezvous}
     return render(request, 'appflux/rendezvous_detail.html', context)
 
-
+@login_required
 def rendez_vous_update(request, entrepreneur_id, rendezvous_id):
     entrepreneur = get_object_or_404(Entrepreneur, pk=entrepreneur_id)
     rendezvous = get_object_or_404(RendezVous, pk=rendezvous_id)
-
+    if rendezvous.entrepreneur != entrepreneur:
+        messages.error(request, 'Vous ne pouvez pas modifier ce rendez-vous.')
+        return redirect('entrepreneur_detail', entrepreneur_id=entrepreneur_id)
+    
     if request.method == "POST":
         form = RendezVousForm(request.POST, instance=rendezvous)
         if rendezvous.entrepreneur != entrepreneur:
@@ -156,6 +160,8 @@ def rendez_vous_update(request, entrepreneur_id, rendezvous_id):
     }
     return render(request, 'appflux/rendezvous_update.html', context)
 
+
+@login_required
 def index(request):
     liste = RendezVous.objects.all().select_related('entrepreneur').order_by("-date")
 
@@ -197,7 +203,7 @@ def index(request):
     return render(request, "appflux/annuaire.html", locals())
 
 
-
+@login_required
 def rendezvous_new(request):
     form = RendezVousAnnuaire()
 
@@ -219,6 +225,8 @@ def rendezvous_new(request):
 
     return render(request, 'appflux/rendezvous_creer.html', context)
 
+
+@login_required
 def rendezvous_detail_annuaire(request, rendezvous_id):
     rendezvous = get_object_or_404(RendezVous, id=rendezvous_id)
 
@@ -229,6 +237,7 @@ def rendezvous_detail_annuaire(request, rendezvous_id):
     return render(request, 'appflux/rendezvousannuaire_detail.html', context)
 
 
+@login_required
 def rendezvous_edit(request, rendezvous_id):
     rendezvous = get_object_or_404(RendezVous, id=rendezvous_id)
     form = RendezVousAnnuaire(instance=rendezvous)
@@ -250,3 +259,108 @@ def rendezvous_edit(request, rendezvous_id):
     }
 
     return render(request, 'appflux/rendezvous_formupdate.html', context)
+
+
+@login_required
+def evenements(request):
+    liste = Evenement.objects.all().order_by('-date')
+
+    if request.method == "POST":
+        form = EvenementFiltre(request.POST)
+        if form.is_valid():
+            try:
+                base_url = reverse('evenements')
+                query_string = urlencode(form.cleaned_data)
+                url = '{}?{}'.format(base_url, query_string)
+                return redirect(url)
+            except TypeError:
+                query_string = urlencode({k: v for k, v in form.cleaned_data.items() if v is not None and v != ''})
+                url = '{}?{}'.format(base_url, query_string)
+                return redirect(url)
+    else:
+        form = EvenementFiltre()
+        titre = request.GET.get("titre", "")
+        date_min = request.GET.get("date_min", "")
+        date_max = request.GET.get("date_max", "")
+        if titre:
+            liste = liste.filter(titre__icontains=titre)
+            form.fields['titre'].initial = titre
+        if date_min is not None and date_min != '':
+            liste = liste.filter(date__gte=date_min)
+            form.fields['date_min'].initial = date_min
+        else:
+            form.fields['date_min'].initial = ''
+        if date_max is not None and date_max != '':
+            liste = liste.filter(date__lte=date_max)
+            form.fields['date_max'].initial = date_max
+        else:
+            form.fields['date_max'].initial = ''
+
+    return render(request, 'appflux/evenements.html', locals())
+
+
+@login_required
+def evenement_creer(request):
+    if request.method == 'POST':
+        form = EvenementForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'L\'événement a été créé avec succès!')
+            return redirect('evenements')
+    else:
+        form = EvenementForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'appflux/evenement_creer.html', context)
+
+
+@login_required
+def evenement_detail(request, evenement_id):
+    evenement = get_object_or_404(Evenement, pk=evenement_id)
+    context = {
+        'evenement': evenement,
+    }
+    return render(request, 'appflux/evenement_detail.html', context)
+
+
+def update_evenement(request, evenement_id):
+    evenement = get_object_or_404(Evenement, pk=evenement_id)
+    form = EvenementForm(request.POST or None, instance=evenement)
+
+    if form.is_valid():
+        form.save()
+        messages.success(request, 'L\'événement a bien été modifié.')
+        return redirect('evenement_detail', evenement_id=evenement_id)
+
+    context = {
+        'form': form,
+        'evenement': evenement,
+    }
+    return render(request, 'appflux/update_evenement.html', context)
+
+
+@login_required
+def evenement_list(request, entrepreneur_id):
+    entrepreneur = get_object_or_404(Entrepreneur, pk=entrepreneur_id)
+    evenements = Evenement.objects.filter(entrepreneurs=entrepreneur)
+    context = {
+        'entrepreneur': entrepreneur,
+        'evenements': evenements
+    }
+    return render(request, 'appflux/evenement_list.html', context)
+
+
+@login_required
+def evenement_retrieve(request, entrepreneur_id, evenement_id):
+    entrepreneur = get_object_or_404(Entrepreneur, pk=entrepreneur_id)
+    evenement = get_object_or_404(Evenement, pk=evenement_id)
+    if evenement.entrepreneurs.filter(pk=entrepreneur_id).exists():
+        context = {
+            'entrepreneur': entrepreneur,
+            'evenement': evenement
+        }
+        return render(request, 'appflux/evenement_retrieve.html', context)
+    else:
+        messages.error(request, "Vous ne pouvez pas acceder a cet evenement.")
+        return redirect('entrepreneur_detail', entrepreneur_id=entrepreneur_id)

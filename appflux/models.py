@@ -97,3 +97,17 @@ class RendezVous(models.Model):
 
     def __str__(self):
         return f"Rendez-vous avec {self.entrepreneur} le {self.date} à {self.heure}"
+
+class Evenement(models.Model):
+    titre = models.CharField(max_length=100)
+    description = models.TextField(blank=True)
+    date = models.DateField()
+    heure = models.TimeField()
+    entrepreneurs = models.ManyToManyField(Entrepreneur)
+    compte_rendu = models.TextField(blank=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_updated = models.DateTimeField(auto_now=True)
+
+
+    def __str__(self):
+        return self.titre

@@ -1,6 +1,6 @@
 from django.forms import ModelForm, Form , CharField
 from django import forms
-from appflux.models import Entrepreneur, Fichier, RendezVous
+from appflux.models import Entrepreneur, Fichier, RendezVous, Evenement
 
 class EntrepreneurForm(ModelForm):
     class Meta:
@@ -36,5 +36,22 @@ class RendezVousAnnuaire(forms.ModelForm):
 class RendezVousFiltre(forms.Form):
     nom = forms.CharField(required=False)
     prenom = forms.CharField(required=False)
+    date_min = forms.DateField(required=False)
+    date_max = forms.DateField(required=False)
+
+
+class EvenementForm(forms.ModelForm):
+    entrepreneurs = forms.ModelMultipleChoiceField(
+        queryset=Entrepreneur.objects.all().order_by("nom"),
+        
+    )
+
+    class Meta:
+        model = Evenement
+        fields = ('titre', 'description', 'date', 'heure', 'entrepreneurs', 'compte_rendu')
+
+
+class EvenementFiltre(forms.Form):
+    titre = forms.CharField(required=False)
     date_min = forms.DateField(required=False)
     date_max = forms.DateField(required=False)

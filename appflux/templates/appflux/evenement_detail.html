@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class ="text-center" >
+    <a href = "{% url 'update_evenement' evenement.id  %}" class="btn btn-secondary"> Update</a>
+</div>
+  <h1>{{ evenement.titre }}</h1>
+  <p>{{ evenement.description }}</p>
+  <p>Date : {{ evenement.date }}</p>
+  <p>heure : {{ evenement.heure }}</p>
+  <p>Compte Rendu : {{ evenement.compte_rendu }}</p>
+  <p>Entrepreneurs :</p>
+  <ul>
+    {% for entrepreneur in evenement.entrepreneurs.all %}
+      <li>{{ entrepreneur.nom }} {{ entrepreneur.prenom }}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

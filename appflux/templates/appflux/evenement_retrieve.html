@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>{{ evenement.titre }}</h1>
+  <p>{{ evenement.description }}</p>
+  <p>Date : {{ evenement.date }}</p>
+  <p>heure : {{ evenement.heure }}</p>
+  <p>Compte Rendu : {{ evenement.compte_rendu }}</p>
+  <p><strong>Entrepreneurs :</strong></p>
+  <ul>
+    {% for entrepreneur in evenement.entrepreneurs.all %}
+      <li>{{ entrepreneur.nom }} {{ entrepreneur.prenom }}</li>
+    {% empty %}
+      <li>Aucun entrepreneur associé à cet événement</li>
+    {% endfor %}
+  </ul>
+
+{% endblock %}

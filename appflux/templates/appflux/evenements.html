@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+
+<div class ="text-center" >
+    <a href = "{% url 'evenement_creer'  %}" class="btn btn-secondary"> Ajouter un Rendez-vous</a>
+</div>
+<div class = "row p-4">
+    <div class = "col-sm-12 mt-1"> 
+        <div class="card">
+            <div class="card-header"> 
+                Recherche
+            </div> 
+            <form action=" {% url 'evenements' %}" method="post">
+                <div class="card-body">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <div class="text-right" >
+                    <button class="btn-btn-info" type="submit">Rechercher</button>
+                </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+  <div class="table-responsive-sm p-4">
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th scope="col">Sujet</th>
+                <th scope="col">Date</th>
+                <th scope="col">Heure</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for evenement in liste %}
+            <tr class="table-info">
+                <td><a href="{% url 'evenement_detail' evenement.id %}">{{evenement.titre}}</a></td>
+                <td>{{evenement.date}}</td>
+                <td>{{evenement.heure}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+  </div>
+{% endblock %}

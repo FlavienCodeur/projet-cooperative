@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<div class="table-responsive-sm p-4">
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th scope="col">Titre</th>
+                <th scope="col">Date</th>
+                <th scope="col">Heure</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for evenement in  evenements %}
+            <tr class="table-info">
+                <td><a href="{% url 'evenement_retrieve'  entrepreneur.id evenement.id %}">{{ evenement.titre }}</a></td>
+                <td>{{evenement.date}}</td>
+                <td>{{evenement.heure}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

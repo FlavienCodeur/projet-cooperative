@@ -1,5 +1,5 @@
 from django.contrib import admin 
-from appflux.models import Entrepreneur, Fichier, RendezVous
+from appflux.models import Entrepreneur, Fichier, RendezVous, Evenement
 from django.contrib.auth.admin import UserAdmin
 
 
@@ -34,3 +34,5 @@ class RendezvousAdmin(admin.ModelAdmin):
     list_filter = ()
     fieldsets = () 
 admin.site.register(RendezVous, RendezvousAdmin)
+
+admin.site.register(Evenement)
