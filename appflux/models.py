@@ -84,7 +84,7 @@ LIEU = [
 
 class RendezVous(models.Model):
     entrepreneur = models.ForeignKey(Entrepreneur, on_delete=models.CASCADE)
-    sujet = models.CharField(max_length=255)
+    sujet = models.CharField(max_length=20)
     date = models.DateField()
     heure = models.TimeField()
     nature = models.CharField(max_length=240, verbose_name=' Nature du rendez vous', choices=NATURE, blank=True)
@@ -99,7 +99,7 @@ class RendezVous(models.Model):
         return f"Rendez-vous avec {self.entrepreneur} le {self.date} à {self.heure}"
 
 class Evenement(models.Model):
-    titre = models.CharField(max_length=100)
+    titre = models.CharField(max_length=20)
     description = models.TextField(blank=True)
     date = models.DateField()
     heure = models.TimeField()

@@ -1,18 +1,34 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class ="text-center" >
-    <a href = "{% url 'update_evenement' evenement.id  %}" class="btn btn-secondary"> Update</a>
+
+</br> </br>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <div class="d-flex justify-content-between align-items-center">
+            <h1>{{ evenement.titre }}</h1>
+            <a href="{% url 'update_evenement' evenement.id %}" class="btn btn-secondary">Modifier</a>
+            <a href="{% url 'evenements' %}" class="btn btn-secondary">Retour</a>
+          </div>
+        </div>
+        <div class="card-body">
+          <p> <strong> Description </strong>  : {{ evenement.description }}</p>
+          <p><strong> Date </strong>  : {{ evenement.date }}</p>
+          <p><strong> Heure  </strong>  : {{ evenement.heure }}</p>
+          <p><strong> Compte Rendu  </strong> : {{ evenement.compte_rendu }}</p>
+          <p><strong>  Participants </strong> :</p>
+          <ul>
+            {% for entrepreneur in evenement.entrepreneurs.all %}
+              <li>{{ entrepreneur.nom }} {{ entrepreneur.prenom }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-  <h1>{{ evenement.titre }}</h1>
-  <p>{{ evenement.description }}</p>
-  <p>Date : {{ evenement.date }}</p>
-  <p>heure : {{ evenement.heure }}</p>
-  <p>Compte Rendu : {{ evenement.compte_rendu }}</p>
-  <p>Entrepreneurs :</p>
-  <ul>
-    {% for entrepreneur in evenement.entrepreneurs.all %}
-      <li>{{ entrepreneur.nom }} {{ entrepreneur.prenom }}</li>
-    {% endfor %}
-  </ul>
+
 {% endblock %}

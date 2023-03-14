@@ -134,9 +134,6 @@ def rendez_vous_update(request, entrepreneur_id, rendezvous_id):
     
     if request.method == "POST":
         form = RendezVousForm(request.POST, instance=rendezvous)
-        if rendezvous.entrepreneur != entrepreneur:
-            messages.error(request, 'Vous ne pouvez pas modifier ce rendezvous.')
-            return redirect('home', entrepreneur_id=entrepreneur_id)
         
         if form.is_valid():
             rendezvous = form.save(commit=False)
