@@ -17,6 +17,14 @@ ACTIVITE = (
     ('Autre', 'Autre')
 )
 
+OPTIONS = (
+    ('BASE', 'BASE'),
+    ('BASE+1', 'BASE+1'),
+    ('BASE+2', 'BASE+2'),
+    ('BASE+3', 'BASE+3')
+)
+
+
 class Entrepreneur(models.Model):
     STRUCTURE = (
     ('Impulsions', 'Impulsions'),
@@ -44,6 +52,12 @@ class Entrepreneur(models.Model):
     motif = models.CharField(max_length=240, blank=True, verbose_name=' Contrat de travail', choices=TRAVAIL)
     activite = models.CharField(max_length=40, blank=True, verbose_name="type de activité", choices=ACTIVITE)
     manager = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    date_mutuelle = models.DateField(blank=True, null=True, verbose_name="Date pour la mutuelle")
+    conjoint_mutuelle = models.BooleanField(null=True, blank=True, verbose_name="Avez vous un conjoint qui a soucris a la mutuelle ?")
+    dispense = models.BooleanField(null= True, blank=True , verbose_name='Avez vous une dispense pour l\'affiliation')
+    date_fin = models.DateField(null=True, blank=True)
+    options = models.CharField(max_length=100, choices=OPTIONS, null=True , blank=True)
+
 
 
     def __str__(self):
@@ -111,3 +125,22 @@ class Evenement(models.Model):
 
     def __str__(self):
         return self.titre
+
+class Question(models.Model):
+    title = models.CharField(max_length=255)
+    content = models.TextField(max_length=5000)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+class Answer(models.Model):
+    content = models.TextField(max_length=5000)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+    def __str__(self):
+        return self.content

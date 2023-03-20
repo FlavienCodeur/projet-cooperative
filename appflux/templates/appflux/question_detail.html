@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block content %}
+</br>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card mb-3">
+          <div class="card-body">
+            <h1 class="card-title">{{ question.title }}</h1>
+            <p class="card-text">{{ question.content }}</p>
+            <p class="card-text"><small class="text-muted">Publié par {{ question.author }} </small></p>
+          </div>
+        </div>
+    </br>
+        <h2>Réponses</h2>
+
+        {% if answers %}
+          {% for answer in answers %}
+            <div class="card mb-3">
+              <div class="card-body">
+                <p class="card-text">{{ answer.content }}</p>
+                <p class="card-text"><small class="text-muted">Répondu par {{ answer.author }}</small></p>
+                {% if request.user == answer.author %}
+                <a href="{% url 'answer_update' answer.id %}" class="btn btn-sm btn-outline-secondary">Modifier</a>
+                {% endif %}
+              </div>
+            </div>
+          {% empty %}
+            <p>Aucune réponse n'a été trouvée.</p>
+          {% endfor %}
+        {% else %}
+          <p>Aucune réponse n'a été trouvée.</p>
+        {% endif %}
+
+        </br>
+        <div class ="text-center" >
+            <a href = "{% url 'answer_create' question.id  %}" class="btn btn-secondary"> Ajouter une reponse</a>
+        </div></br> 
+
+        {% if request.user == question.author %}
+          <div class="card mb-3">
+            <div class="card-body">
+                <a href="{% url 'question_update' question.id %}" class="btn btn-sm btn-outline-secondary">Modifier cette question</a>
+            </div>
+          </div>
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+

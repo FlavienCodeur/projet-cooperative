@@ -1,16 +1,18 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from appflux.models import Entrepreneur, Fichier, RendezVous, Evenement
+from appflux.models import Entrepreneur, Fichier, RendezVous, Evenement, Question, Answer
 from . import models
 from django.views.generic import DetailView, CreateView, UpdateView
-from appflux.forms import EntrepreneurForm, EntrepreneurFiltre, FichierForm, RendezVousForm, RendezVousAnnuaire, RendezVousFiltre, EvenementForm, EvenementFiltre
+from appflux.forms import EntrepreneurForm, EntrepreneurFiltre, FichierForm, RendezVousForm, RendezVousAnnuaire, RendezVousFiltre, EvenementForm, EvenementFiltre, QuestionCreateForm, AnswerCreateForm
 from django.urls import reverse_lazy , reverse
 from django.utils.http import urlencode
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
-from django.core.mail import send_mail
+from django.core.mail import send_mail , send_mass_mail
 from django.conf import settings
 from django.contrib import messages
+from django.db.models import Q
+from authentification.models import User
 
 @login_required
 def home(request):
@@ -340,7 +342,7 @@ def update_evenement(request, evenement_id):
 @login_required
 def evenement_list(request, entrepreneur_id):
     entrepreneur = get_object_or_404(Entrepreneur, pk=entrepreneur_id)
-    evenements = Evenement.objects.filter(entrepreneurs=entrepreneur)
+    evenements = Evenement.objects.filter(entrepreneurs=entrepreneur).order_by('-date')
     context = {
         'entrepreneur': entrepreneur,
         'evenements': evenements
@@ -361,3 +363,109 @@ def evenement_retrieve(request, entrepreneur_id, evenement_id):
     else:
         messages.error(request, "Vous ne pouvez pas acceder a cet evenement.")
         return redirect('entrepreneur_detail', entrepreneur_id=entrepreneur_id)
+    
+@login_required
+def question_list(request):
+    query = request.GET.get('q')
+    if query:
+        questions = Question.objects.filter(
+            Q(title__icontains=query) | Q(content__icontains=query)
+        )
+    else:
+        questions = Question.objects.all()
+    context = {'questions': questions}
+    return render(request, 'appflux/question_list.html', context)
+
+@login_required
+def question_create(request):
+    form = QuestionCreateForm(request.POST or None)
+
+    if form.is_valid():
+        question = form.save(commit=False)
+        question.author = request.user
+        question.save()
+        messages.success(request, 'Votre question a été créée avec succès.')
+
+        # Send email to all users
+        subject = 'Nouvelle question posée'
+        message = f"Une nouvelle question a été posée : {question.title}. Vous pouvez voir les détails ici : {request.build_absolute_uri(reverse('question_detail', args=[question.id]))}"
+        from_email = 'votre-email@votresite.com'
+        recipient_list = User.objects.values_list('email', flat=True)
+        send_mass_mail(((subject, message, from_email, [recipient]) for recipient in recipient_list))
+
+        return redirect('question_list')
+
+    context = {'form': form}
+    return render(request, 'appflux/question_create.html', context)
+
+def question_detail(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    answers = Answer.objects.filter(question=question)
+
+    return render(request, 'appflux/question_detail.html', {'question': question, 'answers': answers})
+
+
+
+def answer_create(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    if request.method == 'POST':
+        form = AnswerCreateForm(request.POST)
+        if form.is_valid():
+            answer = form.save(commit=False)
+            answer.question = question
+            answer.author = request.user
+            answer.save()
+            messages.success(request, 'Votre réponse a été ajoutée avec succès.')
+            return redirect('question_detail', question_id=question.id)
+        else:
+            messages.error(request, 'Il y a eu une erreur lors de l\'ajout de votre réponse.')
+    else:
+        form = AnswerCreateForm()
+
+    return render(request, 'appflux/answer_create.html', {'form': form, 'question': question})
+
+
+@login_required
+def answer_update(request, answer_id):
+    answer = get_object_or_404(Answer, pk=answer_id)
+
+    if answer.author != request.user:
+        messages.error(request, 'Vous n\'êtes pas autorisé à modifier cette réponse.')
+        return redirect('question_detail', question_id=answer.question.id)
+
+    form = AnswerCreateForm(request.POST or None, instance=answer)
+
+    if form.is_valid():
+        answer = form.save(commit=False)
+        answer.author = request.user
+        answer.save()
+        messages.success(request, 'Votre réponse a été mise à jour avec succès.')
+        return redirect('question_detail', question_id=answer.question.id)
+    else:
+       AnswerCreateForm()
+
+    context = {'form': form, 'answer': answer}
+    return render(request, 'appflux/answer_update.html', context)
+
+
+@login_required
+def question_update(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+
+    if question.author != request.user:
+        messages.error(request, 'Vous n\'êtes pas autorisé à modifier cette question.')
+        return redirect('question_detail', question_id=question.id)
+
+    form = QuestionCreateForm(request.POST or None, instance=question)
+
+    if form.is_valid():
+        question = form.save(commit=False)
+        question.author = request.user
+        question.save()
+        messages.success(request, 'Votre question a été mise à jour avec succès.')
+        return redirect('question_detail', question_id=question.id)
+    else:
+        QuestionCreateForm()
+
+    context = {'form': form, 'question': question}
+    return render(request, 'appflux/question_update.html', context)

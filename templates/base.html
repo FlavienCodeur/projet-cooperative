@@ -32,14 +32,18 @@
                         {% if user.is_authenticated %}
                         <li class="nav-item ">
                             <a class="nav-link text-light"
-                               href="{% url 'home' %}">Flux</a>
+                               href="{% url 'home' %}">Accueil</a>
                         <li class="nav-item">
-                            <a class="nav-link text-light" 
+                            <a class="nav-link text-light"    
                                href="{% url 'rendezvous' %}">Rendez-vous</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-light"
                                href="{% url 'evenements' %}">Evenements</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light"
+                               href="{% url  'question_list'  %}">FAQ</a>
                         </li>
                         <li class="nav-item ">
                             <a class="nav-link text-light"
@@ -47,7 +51,7 @@
                                 MDP</a>
                         </li>
                         <li class="nav-item ">
-                            <a class= "nav-link text-light"href="{% url 'profile' %}" title="Update my profile">Votre Profil {{request.user | title}}</a>
+                            <a class= "nav-link text-light"href="{% url 'profile' %}" title="Update my profile">Votre Profil </a>
                         </li>
                         <li class="nav-item ">
                             <a class="nav-link text-light" href="{% url 'logout' %}">Se

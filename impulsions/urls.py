@@ -53,6 +53,13 @@ urlpatterns = [
     path('evenements/<int:evenement_id>/update/', appflux.views.update_evenement, name='update_evenement'),
     path('home/<int:entrepreneur_id>/evenements/', appflux.views.evenement_list, name='evenements_entrepreneur'),
     path('home/<int:entrepreneur_id>/evenements/<int:evenement_id>/', appflux.views.evenement_retrieve, name='evenement_retrieve'),
+    path('faq/', appflux.views.question_list, name='question_list'),
+    path('faq/create/', appflux.views.question_create, name='question_create'),
+    path('faq/<int:question_id>/', appflux.views.question_detail, name='question_detail'),
+    path('faq/<int:question_id>/answer/create/', appflux.views.answer_create, name='answer_create'),
+    path('answer/<int:answer_id>/update/', appflux.views.answer_update, name='answer_update'),
+    path('faq/<int:question_id>/update/', appflux.views.question_update, name='question_update'),
+
 ]
 
 if settings.DEBUG:

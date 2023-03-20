@@ -1,6 +1,6 @@
 from django.forms import ModelForm, Form , CharField
 from django import forms
-from appflux.models import Entrepreneur, Fichier, RendezVous, Evenement
+from appflux.models import Entrepreneur, Fichier, RendezVous, Evenement, Question, Answer
 
 class EntrepreneurForm(ModelForm):
     class Meta:
@@ -55,3 +55,15 @@ class EvenementFiltre(forms.Form):
     titre = forms.CharField(required=False)
     date_min = forms.DateField(required=False)
     date_max = forms.DateField(required=False)
+
+
+class QuestionCreateForm(forms.ModelForm):
+    class Meta:
+        model = Question
+        fields = ('title', 'content')
+
+
+class AnswerCreateForm(forms.ModelForm):
+    class Meta:
+        model = Answer
+        fields = ('content',)

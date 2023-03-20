@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col-md-8">
+        <h1>Rechercher une question</h1>
+        <form action="" method="GET">
+          <div class="form-group">
+            <input type="text" name="q" class="form-control" placeholder="Rechercher...">
+          </div>
+          <button type="submit" class="btn btn-primary">Rechercher</button>
+        </form>
+
+        <hr>
+        <div class ="text-center" >
+            <a href = "{% url 'question_create'  %}" class="btn btn-secondary"> Creer une question</a>
+            <a class=" btn btn-secondary" href="{% url 'question_list' %}">Annuler la requete de filtre</a>
+        </div></br>
+        {% if questions %}
+          <ul class="list-group">
+            {% for question in questions %}
+              <li class="list-group-item">
+                <a href="{% url 'question_detail' question.id %}">{{ question.title }}</a>
+                <p class="text-muted">{{ question.author }}</p>
+              </li>
+            </br>
+            {% empty %}
+              <li class="list-group-item">Aucune question trouvée.</li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>Aucune question n'a été trouvée.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

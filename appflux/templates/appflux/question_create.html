@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+
+</br> </br>
+<h4  class="text-info text-center">  Creer une question </h4>
+<div class="container mt-3">
+  <form method="POST" enctype="multipart/form-data" action="" style="height: min-content; ">
+      {% csrf_token %}
+      <div class = "col-sm-12">
+          {{ form|crispy }}
+          <a href = "{% url 'question_list'%}" > Annuler</a>
+      </div>
+      <div class="text-center">
+      <input class="btn btn-success text-center" type="submit" value="Valider le formulaire">
+      </div>
+  </form>
+</div>
+</br>
+{% endblock %}
