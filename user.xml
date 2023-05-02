@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<django-objects version="1.0">
+  <object model="authentification.user" pk="1">
+    <field name="password" type="CharField">pbkdf2_sha256$260000$oFwFbJRzP1Qb6MsVUNrD6j$UXwdRj6biCzyu/2fBt+Dfg+fSJvqRuL7AUdcn0SzZ/8=</field>
+    <field name="last_login" type="DateTimeField">2023-03-21T12:56:19.764629+00:00</field>
+    <field name="is_superuser" type="BooleanField">True</field>
+    <field name="username" type="CharField">Flav</field>
+    <field name="first_name" type="CharField">g</field>
+    <field name="last_name" type="CharField"></field>
+    <field name="email" type="CharField">flavienrousse2003@gmail.com</field>
+    <field name="is_staff" type="BooleanField">True</field>
+    <field name="is_active" type="BooleanField">True</field>
+    <field name="date_joined" type="DateTimeField">2023-03-13T08:19:31.013915+00:00</field>
+    <field name="groups" rel="ManyToManyRel" to="auth.group"></field>
+    <field name="user_permissions" rel="ManyToManyRel" to="auth.permission"></field>
+  </object>
+  <object model="authentification.user" pk="2">
+    <field name="password" type="CharField">pbkdf2_sha256$260000$4nmifb2nK3U9QhsrsgT2rc$xvCUsccYIDv+V4G0tPS6EFaarQkA6dMrn2JnWcPpHpk=</field>
+    <field name="last_login" type="DateTimeField">2023-03-21T07:56:47.069931+00:00</field>
+    <field name="is_superuser" type="BooleanField">False</field>
+    <field name="username" type="CharField">blabla</field>
+    <field name="first_name" type="CharField"></field>
+    <field name="last_name" type="CharField"></field>
+    <field name="email" type="CharField">jeromerousse31@gmail.com</field>
+    <field name="is_staff" type="BooleanField">False</field>
+    <field name="is_active" type="BooleanField">True</field>
+    <field name="date_joined" type="DateTimeField">2023-03-20T07:45:35+00:00</field>
+    <field name="groups" rel="ManyToManyRel" to="auth.group"></field>
+    <field name="user_permissions" rel="ManyToManyRel" to="auth.permission"></field>
+  </object>
+  <object model="authentification.profile" pk="1">
+    <field name="user" rel="OneToOneRel" to="authentification.user">1</field>
+    <field name="avatar" type="FileField">avatar.jpg</field>
+  </object>
+  <object model="authentification.profile" pk="2">
+    <field name="user" rel="OneToOneRel" to="authentification.user">2</field>
+    <field name="avatar" type="FileField">avatar.jpg</field>
+  </object>
+</django-objects>

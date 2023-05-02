@@ -10,7 +10,7 @@ class EntrepreneurForm(ModelForm):
 
 class EntrepreneurFiltre(Form):
     nom = CharField(max_length=100, required=False)
-    prenom = CharField(max_length=100, required=False)
+    prénom = CharField(max_length=100, required=False)
     structure = forms.ChoiceField(choices=Entrepreneur.STRUCTURE, required=False)
     
 
@@ -28,16 +28,18 @@ class RendezVousForm (forms.ModelForm):
 
 
 class RendezVousAnnuaire(forms.ModelForm):
+    entrepreneur = forms.ModelChoiceField(queryset=Entrepreneur.objects.order_by('nom'))
+
     class Meta:
         model = RendezVous
-        fields = '__all__'
+        fields = ['entrepreneur','sujet', 'date', 'heure','nature','lieu','objectifs', 'personne','points','notes']
 
 
 class RendezVousFiltre(forms.Form):
     nom = forms.CharField(required=False)
-    prenom = forms.CharField(required=False)
-    date_min = forms.DateField(required=False)
-    date_max = forms.DateField(required=False)
+    prénom = forms.CharField(required=False)
+    date_minimum = forms.DateField(required=False)
+    date_maximum = forms.DateField(required=False)
 
 
 class EvenementForm(forms.ModelForm):
@@ -53,8 +55,8 @@ class EvenementForm(forms.ModelForm):
 
 class EvenementFiltre(forms.Form):
     titre = forms.CharField(required=False)
-    date_min = forms.DateField(required=False)
-    date_max = forms.DateField(required=False)
+    date_minimum = forms.DateField(required=False)
+    date_maximum = forms.DateField(required=False)
 
 
 class QuestionCreateForm(forms.ModelForm):

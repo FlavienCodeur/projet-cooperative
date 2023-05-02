@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<django-objects version="1.0">
+  <object model="appflux.entrepreneur" pk="1">
+    <field name="nom" type="CharField">Rouss</field>
+    <field name="prenom" type="CharField">Flav</field>
+    <field name="matricule" type="CharField"></field>
+    <field name="photo" type="FileField">avatar.jpg</field>
+    <field name="telephone" type="CharField"></field>
+    <field name="structure" type="CharField">Impulsions</field>
+    <field name="email" type="CharField">flavienrousse2003@gmail.com</field>
+    <field name="nationalite" type="CharField">France</field>
+    <field name="naissance" type="CharField">France</field>
+    <field name="numero" type="CharField"></field>
+    <field name="adresse_postal" type="CharField">85</field>
+    <field name="adresse" type="CharField"><None></None></field>
+    <field name="securite_social" type="CharField"></field>
+    <field name="date_naissance" type="DateField">2003-03-02</field>
+    <field name="ville" type="CharField"></field>
+    <field name="fonction" type="CharField"></field>
+    <field name="date_entree" type="DateField"><None></None></field>
+    <field name="debut" type="DateField"><None></None></field>
+    <field name="motif" type="CharField"></field>
+    <field name="activite" type="CharField"></field>
+    <field name="manager" rel="ManyToOneRel" to="authentification.user"><None></None></field>
+    <field name="date_mutuelle" type="DateField"><None></None></field>
+    <field name="conjoint_mutuelle" type="BooleanField"><None></None></field>
+    <field name="dispense" type="BooleanField"><None></None></field>
+    <field name="date_fin" type="DateField"><None></None></field>
+    <field name="options" type="CharField"><None></None></field>
+  </object>
+  <object model="appflux.entrepreneur" pk="2">
+    <field name="nom" type="CharField">Rousse</field>
+    <field name="prenom" type="CharField">Jerome</field>
+    <field name="matricule" type="CharField"></field>
+    <field name="photo" type="FileField">avatar.jpg</field>
+    <field name="telephone" type="CharField"></field>
+    <field name="structure" type="CharField">Impulsions</field>
+    <field name="email" type="CharField">flavienrousse2003@gmail.com</field>
+    <field name="nationalite" type="CharField">France</field>
+    <field name="naissance" type="CharField">France</field>
+    <field name="numero" type="CharField"></field>
+    <field name="adresse_postal" type="CharField">89</field>
+    <field name="adresse" type="CharField"><None></None></field>
+    <field name="securite_social" type="CharField"></field>
+    <field name="date_naissance" type="DateField">1968-05-14</field>
+    <field name="ville" type="CharField"></field>
+    <field name="fonction" type="CharField"></field>
+    <field name="date_entree" type="DateField"><None></None></field>
+    <field name="debut" type="DateField"><None></None></field>
+    <field name="motif" type="CharField"></field>
+    <field name="activite" type="CharField"></field>
+    <field name="manager" rel="ManyToOneRel" to="authentification.user"><None></None></field>
+    <field name="date_mutuelle" type="DateField">2022-12-07</field>
+    <field name="conjoint_mutuelle" type="BooleanField">True</field>
+    <field name="dispense" type="BooleanField">True</field>
+    <field name="date_fin" type="DateField">2023-12-07</field>
+    <field name="options" type="CharField">BASE+1</field>
+  </object>
+  <object model="appflux.entrepreneur" pk="3">
+    <field name="nom" type="CharField">Mirc</field>
+    <field name="prenom" type="CharField">Corrine</field>
+    <field name="matricule" type="CharField"></field>
+    <field name="photo" type="FileField">avatar.jpg</field>
+    <field name="telephone" type="CharField"></field>
+    <field name="structure" type="CharField">Impulsions</field>
+    <field name="email" type="CharField">flavienrousse2003@gmail.com</field>
+    <field name="nationalite" type="CharField">France</field>
+    <field name="naissance" type="CharField">France</field>
+    <field name="numero" type="CharField"></field>
+    <field name="adresse_postal" type="CharField">8</field>
+    <field name="adresse" type="CharField"><None></None></field>
+    <field name="securite_social" type="CharField"></field>
+    <field name="date_naissance" type="DateField">1965-12-07</field>
+    <field name="ville" type="CharField"></field>
+    <field name="fonction" type="CharField"></field>
+    <field name="date_entree" type="DateField"><None></None></field>
+    <field name="debut" type="DateField"><None></None></field>
+    <field name="motif" type="CharField"></field>
+    <field name="activite" type="CharField"></field>
+    <field name="manager" rel="ManyToOneRel" to="authentification.user"><None></None></field>
+    <field name="date_mutuelle" type="DateField"><None></None></field>
+    <field name="conjoint_mutuelle" type="BooleanField"><None></None></field>
+    <field name="dispense" type="BooleanField"><None></None></field>
+    <field name="date_fin" type="DateField"><None></None></field>
+    <field name="options" type="CharField"><None></None></field>
+  </object>
+  <object model="appflux.fichier" pk="1">
+    <field name="nom" type="CharField">c</field>
+    <field name="fichier" type="FileField">fichiers/Capture_décran_2023-03-09_095338.png</field>
+    <field name="entrepreneur" rel="ManyToOneRel" to="appflux.entrepreneur">2</field>
+    <field name="date_created" type="DateTimeField">2023-03-13T09:37:16.772877+00:00</field>
+  </object>
+  <object model="appflux.rendezvous" pk="7">
+    <field name="entrepreneur" rel="ManyToOneRel" to="appflux.entrepreneur">3</field>
+    <field name="sujet" type="CharField">errrrgfggggggggggggg</field>
+    <field name="date" type="DateField">2023-09-01</field>
+    <field name="heure" type="TimeField">14:00:00</field>
+    <field name="nature" type="CharField">RDV gestion</field>
+    <field name="lieu" type="CharField">a distance</field>
+    <field name="objectifs" type="TextField">efsdedsdds</field>
+    <field name="personne" rel="ManyToOneRel" to="authentification.user">1</field>
+    <field name="points" type="TextField">ez</field>
+    <field name="notes" type="TextField">dsdfs</field>
+  </object>
+  <object model="appflux.evenement" pk="17">
+    <field name="titre" type="CharField">Ze pitch 18/02/23</field>
+    <field name="description" type="TextField">Le contractant ne doit pas avoir la permission de tout simplement modifier les informations du projet , il doit juste pourvoir voir en lecture l’avancement du projet ; ainsi que les matériaux utilisés et qui ont été saisis par les sous traitants. Voir aussi également l’impact Carbonne des matériaux. Il peut voir également la provenance des matériaux. La note carbonne des materiaux
+Il peut accéder au projet qui lui a été mandaté.
+Il doit pourvoir gérer la partie signature du contrat (modalités du contrats) le lieu etc , l’adresse , le montant du projet
+Lorsque le contrat est signe , les informations sont renvoyés a l’application.
+Peut être : envoyez les informations du contrats au sous traitant pour tout simplement que en suivant le sous traitant puisse  appeler le fournisseurs/sous traitant pour commencer l’envoi des matériaux</field>
+    <field name="date" type="DateField">2023-07-11</field>
+    <field name="heure" type="TimeField">14:00:00</field>
+    <field name="compte_rendu" type="TextField">Le contractant ne doit pas avoir la permission de tout simplement modifier les informations du projet , il doit juste pourvoir voir en lecture l’avancement du projet ; ainsi que les matériaux utilisés et qui ont été saisis par les sous traitants. Voir aussi également l’impact Carbonne des matériaux. Il peut voir également la provenance des matériaux. La note carbonne des materiaux
+Il peut accéder au projet qui lui a été mandaté.
+Il doit pourvoir gérer la partie signature du contrat (modalités du contrats) le lieu etc , l’adresse , le montant du projet
+Lorsque le contrat est signe , les informations sont renvoyés a l’application.
+Peut être : envoyez les informations du contrats au sous traitant pour tout simplement que en suivant le sous traitant puisse  appeler le fournisseurs/sous traitant pour commencer l’envoi des matériaux</field>
+    <field name="date_created" type="DateTimeField">2023-03-14T07:03:48.061811+00:00</field>
+    <field name="date_updated" type="DateTimeField">2023-03-20T17:03:03.909507+00:00</field>
+    <field name="entrepreneurs" rel="ManyToManyRel" to="appflux.entrepreneur"><object pk="3"></object></field>
+  </object>
+  <object model="appflux.question" pk="13">
+    <field name="title" type="CharField">Les droits poles emplois</field>
+    <field name="content" type="TextField">ej</field>
+    <field name="author" rel="ManyToOneRel" to="authentification.user">1</field>
+    <field name="created_at" type="DateTimeField">2023-03-20T16:59:51.259192+00:00</field>
+  </object>
+  <object model="appflux.answer" pk="13">
+    <field name="content" type="TextField">C'est le professeur zebi</field>
+    <field name="question" rel="ManyToOneRel" to="appflux.question">13</field>
+    <field name="author" rel="ManyToOneRel" to="authentification.user">1</field>
+    <field name="created_at" type="DateTimeField">2023-03-20T17:00:15.116560+00:00</field>
+  </object>
+  <object model="appflux.answer" pk="14">
+    <field name="content" type="TextField">fg</field>
+    <field name="question" rel="ManyToOneRel" to="appflux.question">13</field>
+    <field name="author" rel="ManyToOneRel" to="authentification.user">2</field>
+    <field name="created_at" type="DateTimeField">2023-03-20T17:02:06.241848+00:00</field>
+  </object>
+</django-objects>

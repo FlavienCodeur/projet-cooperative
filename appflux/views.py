@@ -13,6 +13,9 @@ from django.conf import settings
 from django.contrib import messages
 from django.db.models import Q
 from authentification.models import User
+from celery import shared_task
+
+
 
 @login_required
 def home(request):
@@ -28,14 +31,14 @@ def home(request):
     else:
         form = EntrepreneurFiltre()
         nom_form = request.GET.get("nom","")
-        prenom_form = request.GET.get("prenom","")
+        prenom_form = request.GET.get("prénom","")
         structure_form = request.GET.get("structure","")
         if nom_form is not None:
             liste = liste.filter(nom__icontains=nom_form)
             form.fields['nom'].initial = nom_form
         if prenom_form is not None:
             liste = liste.filter(prenom__icontains=prenom_form)
-            form.fields['prenom'].initial = prenom_form
+            form.fields['prénom'].initial = prenom_form
         if structure_form is not None:
             liste = liste.filter(structure__icontains=structure_form)
             form.fields['structure'].initial = structure_form
@@ -179,25 +182,25 @@ def index(request):
     else:
         form = RendezVousFiltre()
         nom_form = request.GET.get("nom", "")
-        prenom_form = request.GET.get("prenom", "")
-        date_min = request.GET.get("date_min", "")
-        date_max = request.GET.get("date_max", "")
+        prenom_form = request.GET.get("prénom", "")
+        date_min = request.GET.get("date_minimum", "")
+        date_max = request.GET.get("date_maximum", "")
         if nom_form:
             liste = liste.filter(entrepreneur__nom__icontains=nom_form)
             form.fields['nom'].initial = nom_form
         if prenom_form:
             liste = liste.filter(entrepreneur__prenom__icontains=prenom_form)
-            form.fields['prenom'].initial = prenom_form
+            form.fields['prénom'].initial = prenom_form
         if date_min is not None and date_min != '':
             liste = liste.filter(date__gte=date_min)
-            form.fields['date_min'].initial = date_min
+            form.fields['date_minimum'].initial = date_min
         else:
-            form.fields['date_min'].initial = ''
+            form.fields['date_minimum'].initial = ''
         if date_max is not None and date_max != '':
             liste = liste.filter(date__lte=date_max)
-            form.fields['date_max'].initial = date_max
+            form.fields['date_maximum'].initial = date_max
         else:
-            form.fields['date_max'].initial = ''
+            form.fields['date_maximum'].initial = ''
 
     return render(request, "appflux/annuaire.html", locals())
 
@@ -279,21 +282,21 @@ def evenements(request):
     else:
         form = EvenementFiltre()
         titre = request.GET.get("titre", "")
-        date_min = request.GET.get("date_min", "")
-        date_max = request.GET.get("date_max", "")
+        date_min = request.GET.get("date_minimum", "")
+        date_max = request.GET.get("date_maximum", "")
         if titre:
             liste = liste.filter(titre__icontains=titre)
             form.fields['titre'].initial = titre
         if date_min is not None and date_min != '':
             liste = liste.filter(date__gte=date_min)
-            form.fields['date_min'].initial = date_min
+            form.fields['date_minimum'].initial = date_min
         else:
-            form.fields['date_min'].initial = ''
+            form.fields['date_minimum'].initial = ''
         if date_max is not None and date_max != '':
             liste = liste.filter(date__lte=date_max)
-            form.fields['date_max'].initial = date_max
+            form.fields['date_maximum'].initial = date_max
         else:
-            form.fields['date_max'].initial = ''
+            form.fields['date_maximum'].initial = ''
 
     return render(request, 'appflux/evenements.html', locals())
 
@@ -389,7 +392,7 @@ def question_create(request):
         # Send email to all users
         subject = 'Nouvelle question posée'
         message = f"Une nouvelle question a été posée : {question.title}. Vous pouvez voir les détails ici : {request.build_absolute_uri(reverse('question_detail', args=[question.id]))}"
-        from_email = 'votre-email@votresite.com'
+        from_email = settings.EMAIL_HOST_USER
         recipient_list = User.objects.values_list('email', flat=True)
         send_mass_mail(((subject, message, from_email, [recipient]) for recipient in recipient_list))
 

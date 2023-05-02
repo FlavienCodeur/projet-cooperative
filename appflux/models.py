@@ -94,6 +94,7 @@ PRESENCE = [
 LIEU = [
     ('presentiel', 'Presentiel'),
     ('a distance', 'A distance'),
+    ('télephonique', "Télephonique")
 ]
 
 class RendezVous(models.Model):
@@ -104,8 +105,8 @@ class RendezVous(models.Model):
     nature = models.CharField(max_length=240, verbose_name=' Nature du rendez vous', choices=NATURE, blank=True)
     lieu = models.CharField(max_length=100, choices=LIEU, verbose_name='Mode d\'entretien', blank=True)
     objectifs = models.TextField(blank=True)
-    personne = models.ForeignKey(User, on_delete=models.CASCADE)
-    points = models.TextField(max_length=1000, verbose_name='Point qui ont été abordés', blank=True)
+    personne = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Interlocuteur")
+    points = models.TextField(max_length=1000, verbose_name='Points abordés', blank=True)
     notes = models.TextField(blank=True)
     #nouveau champ a ajouter apres
 

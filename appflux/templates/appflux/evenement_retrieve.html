@@ -17,7 +17,7 @@
           <p><strong> Date </strong>  : {{ evenement.date }}</p>
           <p><strong> Heure  </strong>  : {{ evenement.heure }}</p>
           <p><strong> Compte Rendu  </strong> : {{ evenement.compte_rendu }}</p>
-          <p><strong>  Entrepreneurs ayant participé </strong> :</p>
+          <p><strong> Participants </strong> :</p>
           <ul>
             {% for entrepreneur in evenement.entrepreneurs.all %}
               <li>{{ entrepreneur.nom }} {{ entrepreneur.prenom }}</li>
